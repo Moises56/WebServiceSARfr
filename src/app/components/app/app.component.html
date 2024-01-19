@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">AMDC</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" (click)="collapse.toggle()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+      <ul class="navbar-nav ms-auto ml-auto py-4 py-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/consultartn'">Consulta RTN</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/ventabruta'">Venta Bruta</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- <div class="container">
+  <div class="row">
+    <div class="col">
+      @if (ConsultatRTN$ | async; as resultObject) {
+
+        @for (pok of resultObject.data; track pok.actividadId) {
+          <div class="col">
+
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{pok.actividadId}}</h5>
+                <p>{{pok.descripcion}}</p>
+              </div>
+            </div>
+          </div>
+      }
+    }
+
+    </div>
+  </div>
+</div> -->
+
+
+
+
+<!-- <app-pokemon></app-pokemon> -->
+
+
+<router-outlet></router-outlet>

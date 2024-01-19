@@ -1,0 +1,151 @@
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="height: 55vh;">
+        <div class="col-md-6">
+            <h4 class="text-center mb-4">Consulta RTN</h4>
+            <form [formGroup]="formRtn" (ngSubmit)="sendData()">
+                <div class="cart1 text-center">
+                    <div class="card mb-3" style="max-width: 270px; margin-left: auto; margin-right: auto;">
+                        <div class="row g-0">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    <!-- Identidad -->
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon2"><b>RTN</b></span>
+                                        <input type="text" class="form-control" placeholder="ingrese RTN"
+                                            aria-label="Número de Identidad" aria-describedby="basic-addon2"
+                                            formControlName="rtn">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success w-100" ><b>Buscar RTN</b></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@if(responseData){
+<div class="container">
+    <div class="row">
+      <div class="col-12">
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>RTN</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.rtn }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Nombre</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.nombre }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Segundo Nombre</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.segundoNombre }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Primer Apellido</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.primerApellido }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Segundo Apellido</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.segundoApellido }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Nombre Comercial</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.nombreComercial }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Barrio</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.barrio }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Calle/Avenida</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.calleAvenida }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Bloque</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.bloque }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Sector</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.sector }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Número de Casa</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.numeroCasa }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Departamento ID</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.departamento.departamentoId }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Departamento Descripción</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.departamento.descripcion }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Actividad Primaria ID</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.actividadPrimaria.actividadId }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Actividad Primaria Descripción</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.actividadPrimaria.descripcion }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Actividad Secundaria ID</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.actividadSecundaria.actividadId }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Actividad Secundaria Descripción</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.actividadSecundaria.descripcion }}</li>
+        </ul>
+  
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-secondary apo-p"><b>Fecha de Inicio de Actividad</b></li>
+          <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.fechaInicioActividad }}</li>
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+  
+}@else{
+  <div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border text-info" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+@if (errorMessages) {
+  <div class="container">
+    <div row justify-content-center align-items-center>
+      <div class="col-md-6">
+        <div class="alert alert-danger" role="alert">
+          {{errorMessages}}
+        </div>
+      </div>
+    </div>
+  </div>
+}

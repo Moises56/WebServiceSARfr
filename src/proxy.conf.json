@@ -1,0 +1,6 @@
+{
+    "/api": {
+        "target": "http://172.20.40.47:7075/int-middleware-gateway/api/v1/AMDC/ConsultaRTN",
+        "secure": false
+    }
+}

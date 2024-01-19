@@ -1,0 +1,29 @@
+<h1> AMDC - webservice - SAR</h1>
+
+<div class="container">
+
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    @if (PokemonResults$ | async; as resultObject) {
+      @for (pok of resultObject.results; track pok.name) {
+    <div class="col">
+
+          <div class="card">
+            <!-- <img src="..." class="card-img-top" alt="..."> -->
+            <div class="card-body">
+              <h5 class="card-title">{{pok.name}}</h5>
+              <a [href]="pok.url" class="card-text">Ir</a>
+            </div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+      @if (errorMessages) {
+        <div class="alert alert-danger" role="alert">
+          {{errorMessages}}
+        </div>
+      }
+
+
+</div>
