@@ -57,7 +57,6 @@ export class ConsultaRTNComponent implements OnInit {
     this.apiRTN.getconsultaRTN(data).subscribe(
       (data) => {
         this.responseData = data;
-        
         this.isLoadding = false;
         console.log('Data loaded successfully', this.responseData.message);
       },
