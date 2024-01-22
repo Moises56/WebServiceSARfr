@@ -17,6 +17,7 @@ import { VentasData } from '../../interfaces/ventas.interface';
 })
 export class VentabrutaComponent implements OnInit {
   ventasData!: VentasData;
+  isLoadding = false;
 
   public VentaBruta$!: Observable<ResponseData>;
   public errorMessages!: string;
@@ -51,14 +52,20 @@ export class VentabrutaComponent implements OnInit {
       PeriodoHasta: this.formRtn.value.PeriodoHasta
     }
     console.log(data)
+    this.isLoadding = true;
 
     this.apiRTN.getVentaBruta(data).subscribe(
       (data) => {
         this.ventasData = data;
+        this.isLoadding = false;
         console.log('Datos de ventas cargados exitosamente', this.ventasData);
       },
       (error) => {
-        console.error('Error al cargar los datos de ventas', error);
+        //mostrar el error que nos devuelve el servidor en el response body 
+        console.log('Error', error.error);
+        console.log('Status:', error.status);
+        console.log('Status Text:', error.statusText);
+
       }
     );
   }

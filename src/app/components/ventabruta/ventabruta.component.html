@@ -33,7 +33,19 @@
     </div>
 </div>
 
-@if(ventasData){
+@if (isLoadding) {
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-info" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+}
+ 
+  @if(ventasData){
     <div class="container">
         <div class="row">
           <div class="col-12">
@@ -131,14 +143,8 @@
         </div>
     </div>
   </div>
-}@else{
-    <div class="container">
-      <div class="row justify-content-center align-items-center">
-        <div class="d-flex justify-content-center">
-          <div class="spinner-border text-info" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      </div>
-    </div>
   }
+
+
+
+

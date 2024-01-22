@@ -4,7 +4,8 @@ import { ConsultaRTNComponent } from './components/consulta-rtn/consulta-rtn.com
 import { VentabrutaComponent } from './components/ventabruta/ventabruta.component';
 
 export const routes: Routes = [
-    // { path: '', component: AppComponent },
+    { path: '',redirectTo:'app', pathMatch:'full'},
+    
     { path: 'consultartn', title:'consultartn', component: ConsultaRTNComponent},
     { path: 'ventabruta', title:'ventabruta', component: VentabrutaComponent},
 ];

@@ -27,6 +27,31 @@
 </div>
 
 
+@if (isLoadding) {
+  <div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border text-info" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- @if (errorMessages) {
+  <div class="container">
+    <div row justify-content-center align-items-center>
+      <div class="col-md-6">
+        <div class="alert alert-danger" role="alert">
+          {{errorMessages}}
+        </div>
+      </div>
+    </div>
+  </div>
+} -->
+
+
 @if(responseData){
 <div class="container">
     <div class="row">
@@ -126,26 +151,5 @@
     </div>
   </div>
   
-}@else{
-  <div class="container">
-    <div class="row justify-content-center align-items-center">
-      <div class="d-flex justify-content-center">
-        <div class="spinner-border text-info" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    </div>
-  </div>
 }
 
-@if (errorMessages) {
-  <div class="container">
-    <div row justify-content-center align-items-center>
-      <div class="col-md-6">
-        <div class="alert alert-danger" role="alert">
-          {{errorMessages}}
-        </div>
-      </div>
-    </div>
-  </div>
-}
