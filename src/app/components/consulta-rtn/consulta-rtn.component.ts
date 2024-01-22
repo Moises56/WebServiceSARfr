@@ -23,7 +23,7 @@ export class ConsultaRTNComponent implements OnInit {
 
   responseData!: ResponseData;
   isLoadding = false;
-  
+
   constructor(
     private apiRTN: ApirtnService,
   ) { }
@@ -39,19 +39,18 @@ export class ConsultaRTNComponent implements OnInit {
     //        this.errorMessages = error;
     //        return EMPTY;
     //      }))
-    
+
    // this.sendData()
   }
 
   sendData(){
     //limpiar datos
-    
+
 
     const data = {
       rtn: this.formRtn.value.rtn
     }
     console.log(data)
-    
     this.isLoadding = true;
 
     this.apiRTN.getconsultaRTN(data).subscribe(

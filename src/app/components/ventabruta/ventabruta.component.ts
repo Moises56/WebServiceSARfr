@@ -23,7 +23,7 @@ export class VentabrutaComponent implements OnInit {
   public errorMessages!: string;
 
   responseData!: ResponseData;
-  
+
   constructor(
     private apiRTN: ApirtnService,
   ) { }
@@ -41,14 +41,14 @@ export class VentabrutaComponent implements OnInit {
     //        this.errorMessages = error;
     //        return EMPTY;
     //      }))
-    
+
    // this.sendData()
   }
 
   sendData(){
     const data = {
       Rtn: this.formRtn.value.Rtn,
-      PeriodoDesde: this.formRtn.value.PeriodoDesde,  
+      PeriodoDesde: this.formRtn.value.PeriodoDesde,
       PeriodoHasta: this.formRtn.value.PeriodoHasta
     }
     console.log(data)
@@ -61,10 +61,8 @@ export class VentabrutaComponent implements OnInit {
         console.log('Datos de ventas cargados exitosamente', this.ventasData);
       },
       (error) => {
-        //mostrar el error que nos devuelve el servidor en el response body 
-        console.log('Error', error.error);
-        console.log('Status:', error.status);
-        console.log('Status Text:', error.statusText);
+        //mostrar el error que nos devuelve el servidor en el response body
+        console.error('Error al cargar los datos', error);
 
       }
     );

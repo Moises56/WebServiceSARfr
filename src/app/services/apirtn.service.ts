@@ -24,18 +24,21 @@ export class ApirtnService {
       }));
   }
 
-  // 
+  //
   getVentaBruta(data:any): Observable<VentasData>{
     console.log(data.Rtn, data.PeriodoDesde, data.PeriodoHasta)
     return this.http.post<VentasData>(`${environment.Ventaurl}`,{
       Rtn: data.Rtn,
       PeriodoDesde: data.PeriodoDesde,
       PeriodoHasta: data.PeriodoHasta
-
     }).pipe(
-      catchError((error: string) => {
-        this.errorMessages = error;
-        return EMPTY;
-      }));
+      catchError((error: HttpErrorResponse) => {
+        // Maneja el error aquí
+        console.error('Error al consumir la API:', error.message);
+
+        // Puedes lanzar un nuevo observable con el mensaje de error
+        return throwError(error.error); // Esto incluirá el cuerpo del mensaje de error enviado por el servidor
+      })
+    );
   }
 }
