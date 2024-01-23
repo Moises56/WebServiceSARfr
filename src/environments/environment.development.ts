@@ -6,7 +6,7 @@ export const environment = {
   // RTNurl: `http://api.amdc.hn:3000/apirtn`,
   // Ventaurl: `http://api.amdc.hn:3000/ventaBruta`
 
-  RTNurl: `http://localhost:3000/apirtnl`,
-  Ventaurl: `http://localhost:3000/ventaBrutal`
+  RTNurl: `http://localhost:3001/apirtnl`,
+  Ventaurl: `http://localhost:3001/ventaBrutal`
 
 };

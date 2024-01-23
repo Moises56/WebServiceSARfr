@@ -34,8 +34,8 @@ export class ApirtnService {
     }).pipe(
       catchError((error: HttpErrorResponse) => {
         // Maneja el error aquí
-        console.error('Error al consumir la API:', error.message);
-
+        // console.error('Error al consumir la API:', error.message);
+        console.error('Error de RTN:', error);
         // Puedes lanzar un nuevo observable con el mensaje de error
         return throwError(error.error); // Esto incluirá el cuerpo del mensaje de error enviado por el servidor
       })

@@ -21,6 +21,8 @@ export class VentabrutaComponent implements OnInit {
 
   public VentaBruta$!: Observable<ResponseData>;
   public errorMessages!: string;
+  errorMessage: string = ''; // Variable para almacenar el mensaje de error
+
 
   responseData!: ResponseData;
 
@@ -53,6 +55,7 @@ export class VentabrutaComponent implements OnInit {
     }
     console.log(data)
     this.isLoadding = true;
+    
 
     this.apiRTN.getVentaBruta(data).subscribe(
       (data) => {
@@ -62,7 +65,8 @@ export class VentabrutaComponent implements OnInit {
       },
       (error) => {
         //mostrar el error que nos devuelve el servidor en el response body
-        console.error('Error al cargar los datos', error);
+        console.error('Error al consumir la API:', error.message);
+        this.errorMessage = error.message;
 
       }
     );
