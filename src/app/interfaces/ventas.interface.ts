@@ -28,4 +28,3 @@ export interface VentasData {
     isSuccess: boolean;
     message: null | string;
   }
-  

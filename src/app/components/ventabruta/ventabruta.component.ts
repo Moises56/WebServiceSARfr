@@ -55,12 +55,13 @@ export class VentabrutaComponent implements OnInit {
     }
     console.log(data)
     this.isLoadding = true;
-    
+
 
     this.apiRTN.getVentaBruta(data).subscribe(
       (data) => {
         this.ventasData = data;
         this.isLoadding = false;
+
         console.log('Datos de ventas cargados exitosamente', this.ventasData);
       },
       (error) => {
