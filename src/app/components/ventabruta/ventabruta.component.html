@@ -50,8 +50,9 @@
         <div class="row">
           <div class="col-12">
               <!-- mostrar la suma de todas las ventas -->
-              <span class="badge bg-primary text-wrap">Total Ventas Brutas: {{ ventasData.data.ventasBrutas.exportacionesFCA15 + ventasData.data.ventasBrutas.ventasNetasMI15 }}</span>
-
+              <div class="text-center">
+                <span class="badge bg-primary text-wrap">Total Volumen de Ventas Brutas: {{ventasData.data.ventasBrutas.exportacionesFCA + ventasData.data.ventasBrutas.exportacionesFCA15 + ventasData.data.ventasBrutas.exportacionesFCA18 + ventasData.data.ventasBrutas.exportacionesCA + ventasData.data.ventasBrutas.exportacionesCA15 + ventasData.data.ventasBrutas.exportacionesCA18 + ventasData.data.ventasBrutas.transferenciaServiciosFyduca15 + ventasData.data.ventasBrutas.transferenciaServiciosFyduca18 + ventasData.data.ventasBrutas.transferenciaBienesFyduca15 + ventasData.data.ventasBrutas.transferenciaBienesFyduca18 + ventasData.data.ventasBrutas.ventasExentasMI18 + ventasData.data.ventasBrutas.ventasExentasMI + ventasData.data.ventasBrutas.ventasExentasMI15 + ventasData.data.ventasBrutas.ventasExentasExportaciones + ventasData.data.ventasBrutas.ventasExentasExportacionesFCA + ventasData.data.ventasBrutas.ventasExentasExportacionesCA + ventasData.data.ventasBrutas.ventasExoneradasOCE15 + ventasData.data.ventasBrutas.ventasExoneradasOCE18 + ventasData.data.ventasBrutas.ventasExoneradasPN + ventasData.data.ventasBrutas.ventasNetasMI12 + ventasData.data.ventasBrutas.ventasNetasMI15 + ventasData.data.ventasBrutas.ventasNetasMI18 }} </span>
+              </div>
 
 
             <ul class="list-group list-group-horizontal">
