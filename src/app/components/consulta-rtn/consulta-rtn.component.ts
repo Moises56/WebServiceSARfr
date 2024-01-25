@@ -16,10 +16,13 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class ConsultaRTNComponent implements OnInit {
   Resultado: any[] = []
+  visibleD:boolean = false;
+  visibleE:boolean = false;
+
+  regionVisible: String = '';
 
   public ConsultatRTN$!: Observable<ResponseData>;
-  public errorMessages!: string;
-  // rtn!: '';
+  public errorMessage!: string;
 
   responseData!: ResponseData;
   isLoadding = false;
@@ -36,7 +39,7 @@ export class ConsultaRTNComponent implements OnInit {
   ngOnInit(): void {
     // this.ConsultatRTN$ = this.apiRTN.getconsultaRTN().pipe(
     //      catchError((error: string) => {
-    //        this.errorMessages = error;
+    //        this.errorMessage = error;
     //        return EMPTY;
     //      }))
 
@@ -56,13 +59,20 @@ export class ConsultaRTNComponent implements OnInit {
     this.apiRTN.getconsultaRTN(data).subscribe(
       (data) => {
         this.responseData = data;
+        this.regionVisible = 'data';
+        // this.visibleD = true;
+        // this.visibleE = false;
         this.isLoadding = false;
         console.log('Data loaded successfully', this.responseData.message);
       },
-      (error) => {
-        console.error('Error loading data', error);
-        this.errorMessages = error;
-        return EMPTY;
+      error => {
+        this.errorMessage = error?.error?.message || 'Error desconocido';
+        this.regionVisible = 'error';
+        this.isLoadding = false;
+        // this.visibleE = true;
+        // this.visibleD = false;
+        console.log(this.errorMessage);
+        console.error('Error de RTN:', error);
       }
       );
   }

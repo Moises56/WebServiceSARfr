@@ -6,3 +6,15 @@
     background-color: #cdd5d6 !important;
     color: black !important;
 }
+
+.visible{
+  display: block;
+}
+
+.no-visible{
+  display: none;
+}
+
+.fila-solicitud{
+  cursor: pointer;
+}
