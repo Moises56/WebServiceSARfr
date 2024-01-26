@@ -16,12 +16,30 @@
                                             formControlName="Rtn">
                                     </div>
 
-                                    <div class="input-group mb-3">
+                                    <!-- <div class="input-group mb-3">
                                         <span class="input-group-text">PeriodoDesde</span>
                                         <input type="text" class="form-control" placeholder="202201" aria-label="202201" formControlName="PeriodoDesde">
+                                        <input type="text" class="form-control" placeholder="202201" aria-label="202201">
                                         <span class="input-group-text">Periodo Hasta</span>
                                         <input type="text" class="form-control" placeholder="202203" aria-label="202203" formControlName="PeriodoHasta">
-                                      </div>
+                                        <input type="text" class="form-control" placeholder="202203" aria-label="202203">
+                                    </div> -->
+
+                                    <div class="input-group mb-3">
+                                      <label class="input-group-text" for="inputGroupSelect01" ><b>AÑO</b></label>
+                                      <!-- <select class="form-select" id="inputGroupSelect01" formControlName="Anio" (change)="onSelecAnio($event)"> -->
+                                      <select class="form-select" id="inputGroupSelect01" formControlName="Anio">
+                                        <option selected>Seleccione una opcion...</option>
+                                        <option value="1">2018</option>
+                                        <option value="2">2019</option>
+                                        <option value="3">2020</option>
+                                        <option value="4">2021</option>
+                                        <option value="5">2022</option>
+                                        <option value="6">2023</option>
+                                        <option value="7">2024</option>
+                                      </select>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -52,9 +70,9 @@
         @if(ventasData){
           <div class="col-12">
               <!-- mostrar la suma de todas las ventas -->
-              <div class="text-center">
+              <!-- <div class="text-center">
                 <span class="badge bg-primary text-wrap">Total Volumen de Ventas Brutas: {{ventasData.data.ventasBrutas.exportacionesFCA + ventasData.data.ventasBrutas.exportacionesFCA15 + ventasData.data.ventasBrutas.exportacionesFCA18 + ventasData.data.ventasBrutas.exportacionesCA + ventasData.data.ventasBrutas.exportacionesCA15 + ventasData.data.ventasBrutas.exportacionesCA18 + ventasData.data.ventasBrutas.transferenciaServiciosFyduca15 + ventasData.data.ventasBrutas.transferenciaServiciosFyduca18 + ventasData.data.ventasBrutas.transferenciaBienesFyduca15 + ventasData.data.ventasBrutas.transferenciaBienesFyduca18 + ventasData.data.ventasBrutas.ventasExentasMI18 + ventasData.data.ventasBrutas.ventasExentasMI + ventasData.data.ventasBrutas.ventasExentasMI15 + ventasData.data.ventasBrutas.ventasExentasExportaciones + ventasData.data.ventasBrutas.ventasExentasExportacionesFCA + ventasData.data.ventasBrutas.ventasExentasExportacionesCA + ventasData.data.ventasBrutas.ventasExoneradasOCE15 + ventasData.data.ventasBrutas.ventasExoneradasOCE18 + ventasData.data.ventasBrutas.ventasExoneradasPN + ventasData.data.ventasBrutas.ventasNetasMI12 + ventasData.data.ventasBrutas.ventasNetasMI15 + ventasData.data.ventasBrutas.ventasNetasMI18 }} </span>
-              </div>
+              </div> -->
 
               <!-- SUMA Volumen Total de venta por año -->
               <table class="table table-striped table-hover">
@@ -64,7 +82,7 @@
                     <th scope="col">AÑO</th>
                     <th scope="col">#RTN</th>
                     <!-- <th scope="col">Solicitante</th> -->
-                    <th scope="col">NOMBRE DE EMPRESA</th>
+                    <th scope="col">EMPRESA</th>
                     <!-- <th scope="col">Actividad</th> -->
                     <th scope="col">AMDC</th>
                     <th scope="col">SAR</th>
@@ -74,21 +92,26 @@
                 <tbody>
                   <!--  (click)="verSolicitud(sol._id)" -->
 
+                  @if (sumasVentasBrutas) {
+                    @for (suma of sumasVentasBrutas; track suma.id) {
                     <tr class="fila-solicitud">
                       <!-- <th scope="row">{{ i + 1 }}</th> -->
-                      <td>2018</td>
-                      <td>{{RTNI}}</td>
-                      <!-- <td>{{ sol.Solicitante }}</td> -->
-                      <td>EMPRESA XYZ</td>
-                      <!-- <td>{{ sol.Actividad }}</td> -->
-                      <td>30</td>
-                      <td> <span class="badge bg-primary text-wrap">{{ventasData.data.ventasBrutas.exportacionesFCA + ventasData.data.ventasBrutas.exportacionesFCA15 + ventasData.data.ventasBrutas.exportacionesFCA18 + ventasData.data.ventasBrutas.exportacionesCA + ventasData.data.ventasBrutas.exportacionesCA15 + ventasData.data.ventasBrutas.exportacionesCA18 + ventasData.data.ventasBrutas.transferenciaServiciosFyduca15 + ventasData.data.ventasBrutas.transferenciaServiciosFyduca18 + ventasData.data.ventasBrutas.transferenciaBienesFyduca15 + ventasData.data.ventasBrutas.transferenciaBienesFyduca18 + ventasData.data.ventasBrutas.ventasExentasMI18 + ventasData.data.ventasBrutas.ventasExentasMI + ventasData.data.ventasBrutas.ventasExentasMI15 + ventasData.data.ventasBrutas.ventasExentasExportaciones + ventasData.data.ventasBrutas.ventasExentasExportacionesFCA + ventasData.data.ventasBrutas.ventasExentasExportacionesCA + ventasData.data.ventasBrutas.ventasExoneradasOCE15 + ventasData.data.ventasBrutas.ventasExoneradasOCE18 + ventasData.data.ventasBrutas.ventasExoneradasPN + ventasData.data.ventasBrutas.ventasNetasMI12 + ventasData.data.ventasBrutas.ventasNetasMI15 + ventasData.data.ventasBrutas.ventasNetasMI18 }} </span></td>
+
+                          <td>{{Year}}</td>
+                          <td>{{RTNI}}</td>
+                          <!-- <td>{{ sol.Solicitante }}</td> -->
+                          <td>EMPRESA XYZ</td>
+                          <!-- <td>{{ sol.Actividad }}</td> -->
+                          <td>30,000.00</td>
+                          <td>{{suma.suma}}</td>
+
+                      <!-- <td> <span class="badge bg-primary text-wrap">{{ventasData.data.ventasBrutas.exportacionesFCA + ventasData.data.ventasBrutas.exportacionesFCA15 + ventasData.data.ventasBrutas.exportacionesFCA18 + ventasData.data.ventasBrutas.exportacionesCA + ventasData.data.ventasBrutas.exportacionesCA15 + ventasData.data.ventasBrutas.exportacionesCA18 + ventasData.data.ventasBrutas.transferenciaServiciosFyduca15 + ventasData.data.ventasBrutas.transferenciaServiciosFyduca18 + ventasData.data.ventasBrutas.transferenciaBienesFyduca15 + ventasData.data.ventasBrutas.transferenciaBienesFyduca18 + ventasData.data.ventasBrutas.ventasExentasMI18 + ventasData.data.ventasBrutas.ventasExentasMI + ventasData.data.ventasBrutas.ventasExentasMI15 + ventasData.data.ventasBrutas.ventasExentasExportaciones + ventasData.data.ventasBrutas.ventasExentasExportacionesFCA + ventasData.data.ventasBrutas.ventasExentasExportacionesCA + ventasData.data.ventasBrutas.ventasExoneradasOCE15 + ventasData.data.ventasBrutas.ventasExoneradasOCE18 + ventasData.data.ventasBrutas.ventasExoneradasPN + ventasData.data.ventasBrutas.ventasNetasMI12 + ventasData.data.ventasBrutas.ventasNetasMI15 + ventasData.data.ventasBrutas.ventasNetasMI18 }} </span></td> -->
                       <!-- <td>
                         <button type="button" class="btn btn-primary" >Guardar Consulta</button>
                       </td> -->
                     </tr>
-
-
+                  }
+                }
                 </tbody>
               </table>
 
@@ -190,8 +213,6 @@
                   <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasNetasMI18 }}</li>
                 </ul>
               </div>
-
-
             </div>
           }
     </div>
@@ -205,6 +226,7 @@
     </div>
 
   </div>
+
 </div>
 
 
