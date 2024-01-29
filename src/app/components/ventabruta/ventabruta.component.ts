@@ -27,6 +27,7 @@ export class VentabrutaComponent implements OnInit {
   public idCounter = 1; // Contador para generar IDs únicos
   Anio:any = '';
   Year:any = '';
+  selectedYear: number = 0;
 
   public VentaBruta$!: Observable<ResponseData>;
   public errorMessages!: string;
@@ -62,16 +63,16 @@ export class VentabrutaComponent implements OnInit {
     this.Year = localStorage.getItem('Year');
     console.log(this.Year);
 
-
     this.RTNI = this.formRtn.value.Rtn;
     this.Anio = this.formRtn.value.Anio;
     console.log(this.Anio)
 
     this.onSelecAnio(this.Anio);
+
     const data = {
       Rtn: this.formRtn.value.Rtn,
       PeriodoDesde: this.formRtn.value.PeriodoDesde,
-      PeriodoHasta: this.formRtn.value.PeriodoHasta
+      PeriodoHasta: this.formRtn.value.PeriodoHasta,
     };
 
     console.log(data);
@@ -110,7 +111,7 @@ export class VentabrutaComponent implements OnInit {
       const uniqueId = this.idCounter++;
 
       // Agregar la suma al arreglo con el formato adecuado
-      this.sumasVentasBrutas.push({ id: uniqueId, suma: totalVentas });
+      this.sumasVentasBrutas.push({ id: uniqueId, suma: totalVentas, anio: this.Anio});
 
         // Guardar el arreglo en LocalStorage
         localStorage.setItem('sumasVentasBrutas', JSON.stringify(this.sumasVentasBrutas));
@@ -134,16 +135,17 @@ export class VentabrutaComponent implements OnInit {
 
   onSelecAnio(even:any) {
     console.log(even);
+    this.selectedYear = even;
     // si el valor es 1 entonces es el año 2018 y se enviaria desde:201801 y hasta:201812
 
-    const yearMappings: { [key: number]: { desde: string; hasta: string, anio: string } } = {
-      1: { desde: '201801', hasta: '201812', anio: '2018'},
-      2: { desde: '201901', hasta: '201912', anio: '2019' },
-      3: { desde: '202001', hasta: '202012', anio: '2020' },
-      4: { desde: '202101', hasta: '202112', anio: '2021' },
-      5: { desde: '202201', hasta: '202212', anio: '2022' },
-      6: { desde: '202301', hasta: '202312', anio: '2023' },
-      7: { desde: '202401', hasta: '202412', anio: '2024' },
+    const yearMappings: { [key: number]: { desde: string; hasta: string } } = {
+      2018: { desde: '201801', hasta: '201812'},
+      2019: { desde: '201901', hasta: '201912' },
+      2020: { desde: '202001', hasta: '202012' },
+      2021: { desde: '202101', hasta: '202112' },
+      2022: { desde: '202201', hasta: '202212' },
+      2023: { desde: '202301', hasta: '202312' },
+      2024: { desde: '202401', hasta: '202412' },
     };
 
     const selectedYear = yearMappings[even];
@@ -151,16 +153,11 @@ export class VentabrutaComponent implements OnInit {
     if (selectedYear) {
       this.formRtn.controls['PeriodoDesde'].setValue(selectedYear.desde);
       this.formRtn.controls['PeriodoHasta'].setValue(selectedYear.hasta);
-      // gurdar el año seleccionado en la localstorage
-      localStorage.setItem('Year', selectedYear.anio);
-
-
 
     } else {
       this.formRtn.controls['PeriodoDesde'].setValue('');
       this.formRtn.controls['PeriodoHasta'].setValue('');
     }
-
 
     // if(even == 1){
     //   this.formRtn.controls['PeriodoDesde'].setValue('201801');
@@ -199,10 +196,6 @@ export class VentabrutaComponent implements OnInit {
   saveConsulta(){
     this.regionVisible = 'verInfoSar';
   }
-
-
-
-
 
 }
 
