@@ -1,0 +1,82 @@
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+
+    @if(errorMessage){
+      <div class="alert alert-danger  text-center alert-dismissible fade show" role="alert">
+        <strong>Error</strong> {{errorMessage}}
+      </div>   
+    }
+
+    <div class="col-md-12">
+      <div class="body-class">
+        <div class="contenedor">
+          <div class="screen">
+            <div class="screen__content">
+              <form class="login"[formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off" novalidate >
+                <div class="login__field">
+                  <i class="login__icon fas fa-user"></i>
+                  <input type="text" class="login__input" placeholder="Usuario / Email" formControlName="email"
+                  [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+                  
+                  >
+                  @if (submitted && f['email'].errors) {
+                    <div class="invalid-feedback">
+                      @if (f['email'].errors['required']) {
+                      <h6><span class="badge bg-danger">El email es requerido</span></h6>
+                      }
+                  @if (f['email'].errors['email']) {
+                      <h6><span class="badge bg-danger">El email es invalido</span></h6>
+                      }
+                    </div>
+                    }
+                </div>
+                <div class="login__field">
+                  <i class="login__icon fas fa-lock"></i>
+                  <input type="password" class="login__input" placeholder="Contraseña" formControlName="password"
+                  [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+                  >
+                  @if (submitted && f['password'].errors) {
+                    <div class="invalid-feedback">
+                      @if (f['password'].errors['required']) {
+                      <h6><span class="badge bg-danger">La contraseña es requerida</span></h6>
+                      }
+                  @if (f['password'].errors['minlength']) {
+                      <h6><span class="badge bg-danger">La contraseña debe tener al menos 6 caracteres</span></h6>
+                      }
+                  @if (f['password'].errors['maxlength']) {
+                      <h6><span class="badge bg-danger">El nombre de usuario no debe superar los 40 caracteres</span></h6>
+                      }
+                    </div>
+                    }
+                </div>
+
+
+                <button type="submit" class="button login__submit" >
+                  <span class="button__text">Iniciar Session</span>
+                  <i class="button__icon fas fa-chevron-right"></i>
+                </button>
+
+              </form>
+              <div class="social-login">
+                <h3>AMDC</h3>
+                <div class="social-icons">
+                </div>
+              </div>
+            </div>
+            <div class="screen__background">
+              <span class="screen__background__shape screen__background__shape4"></span>
+              <span class="screen__background__shape screen__background__shape3"></span>
+              <span class="screen__background__shape screen__background__shape2"></span>
+              <span class="screen__background__shape screen__background__shape1"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+
+
+
+    </div>
+  </div>
+</div>

@@ -10,3 +10,19 @@
     color: rgb(70, 66, 66) !important;
 }
 
+
+/* para pantallas mobiles */
+
+@media (max-width: 768px) {
+    .spacio{
+        margin-left: 0px;
+    }
+}
+
+/* para pantallas medianas */
+/* @media (min-width: 768px) {
+    .spacio{
+        margin-left: 60px;
+    }
+} */
+

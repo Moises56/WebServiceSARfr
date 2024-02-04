@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-success w-100"><b>Buscar</b></button>
+                        <button class="btn btn-success w-100" (click)="saveSumaVVB()"><b>Buscar</b></button>
                     </div>
                 </div>
             </form>
@@ -52,7 +52,7 @@
 </div>
 
 @if (isLoadding) {
-    <div class="container">
+    <!-- <div class="container">
       <div class="row justify-content-center align-items-center">
         <div class="d-flex justify-content-center">
           <div class="spinner-border text-info" role="status">
@@ -60,11 +60,26 @@
           </div>
         </div>
       </div>
+    </div> -->
+
+    <div class="loader">
+      <div class="outer"></div>
+      <div class="middle"></div>
+      <div class="inner"></div>
     </div>
+    
 }
 
 <div class="container">
   <div class="row">
+
+    <div [ngClass]="{'visible':regionVisible == 'error', 'no-visible':regionVisible != 'error'}">
+      @if (errorMessage) {
+        <div class="alert alert-danger" role="alert">
+          {{errorMessage}}
+        </div>
+      }
+    </div>
 
     <div [ngClass]="{'visible':regionVisible == 'data', 'no-visible':regionVisible != 'data'}">
         @if(ventasData){
@@ -100,10 +115,10 @@
                           <td>{{suma.anio}}</td>
                           <td>{{RTNI}}</td>
                           <!-- <td>{{ sol.Solicitante }}</td> -->
-                          <td>EMPRESA XYZ</td>
+                          <td>{{suma.nombreEmpresa}}</td>
                           <!-- <td>{{ sol.Actividad }}</td> -->
-                          <td>30,000.00</td>
-                          <td>{{suma.suma}}</td>
+                          <td>{{suma.sumaAMDC}} </td>
+                          <td>{{suma.sumaSar}} </td>
 
                       <!-- <td> <span class="badge bg-primary text-wrap">{{ventasData.data.ventasBrutas.exportacionesFCA + ventasData.data.ventasBrutas.exportacionesFCA15 + ventasData.data.ventasBrutas.exportacionesFCA18 + ventasData.data.ventasBrutas.exportacionesCA + ventasData.data.ventasBrutas.exportacionesCA15 + ventasData.data.ventasBrutas.exportacionesCA18 + ventasData.data.ventasBrutas.transferenciaServiciosFyduca15 + ventasData.data.ventasBrutas.transferenciaServiciosFyduca18 + ventasData.data.ventasBrutas.transferenciaBienesFyduca15 + ventasData.data.ventasBrutas.transferenciaBienesFyduca18 + ventasData.data.ventasBrutas.ventasExentasMI18 + ventasData.data.ventasBrutas.ventasExentasMI + ventasData.data.ventasBrutas.ventasExentasMI15 + ventasData.data.ventasBrutas.ventasExentasExportaciones + ventasData.data.ventasBrutas.ventasExentasExportacionesFCA + ventasData.data.ventasBrutas.ventasExentasExportacionesCA + ventasData.data.ventasBrutas.ventasExoneradasOCE15 + ventasData.data.ventasBrutas.ventasExoneradasOCE18 + ventasData.data.ventasBrutas.ventasExoneradasPN + ventasData.data.ventasBrutas.ventasNetasMI12 + ventasData.data.ventasBrutas.ventasNetasMI15 + ventasData.data.ventasBrutas.ventasNetasMI18 }} </span></td> -->
                       <!-- <td>
@@ -213,17 +228,12 @@
                   <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasNetasMI18 }}</li>
                 </ul>
               </div>
+            
             </div>
           }
     </div>
 
-    <div [ngClass]="{'visible':regionVisible == 'error', 'no-visible':regionVisible != 'error'}">
-          @if (errorMessage) {
-            <div class="alert alert-danger" role="alert">
-              {{errorMessage}}
-            </div>
-          }
-    </div>
+   
 
   </div>
 

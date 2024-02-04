@@ -7,7 +7,7 @@ import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { VentasData } from '../../interfaces/ventas.interface';
-import { SumaVentasBrutasI } from '../../interfaces/sumaVenta.interfaces';
+import { sumaVVB } from '../../interfaces/sumaVenta.interfaces';
 
 @Component({
   selector: 'app-ventabruta',
@@ -23,13 +23,16 @@ export class VentabrutaComponent implements OnInit {
   regionVisible: String = '';
   i:number = 0;
   RTNI:any  = '';
-  public sumasVentasBrutas: SumaVentasBrutasI[] = [];
+  public sumasVentasBrutas: sumaVVB[] = [];
   public idCounter = 1; // Contador para generar IDs únicos
   Anio:any = '';
   Year:any = '';
   selectedYear: number = 0;
+  User: any = '';
 
   public VentaBruta$!: Observable<ResponseData>;
+  public TventaBrutas:string = '';
+
   public errorMessages!: string;
   errorMessage: string = ''; // Variable para almacenar el mensaje de error
 
@@ -105,13 +108,70 @@ export class VentabrutaComponent implements OnInit {
           }
         }
 
-        // Agregar la suma al arreglo
-        // this.sumasVentasBrutas.push(totalVentas);
-        // Generar un ID único
       const uniqueId = this.idCounter++;
 
+      // separar por comas los miles y decimales de la suma de ventas brutas en lempiras
+      this.TventaBrutas = totalVentas.toLocaleString('es-HN', { style: 'currency', currency: 'HNL' });
+
+      //obtener al usuario logueado 
+      const userDataString = localStorage.getItem('auth-user');
+
+      // Verificar si los datos existen
+      if (userDataString) {
+          // Parsear los datos del usuario desde formato JSON a un objeto de TypeScript
+          const userData = JSON.parse(userDataString);
+
+          // Obtener el nombre de usuario
+          const username = userData.username;
+          this.User = username;
+
+          // Usar el nombre de usuario como desees
+          console.log('Nombre de usuario:', username);
+      } else {
+          console.error('No se encontraron datos de usuario en la localstorage.');
+      }
+
+
+      // save database
+
+      const data = {
+        RTN: this.RTNI,
+        nombreEmpresa: 'Empresa XYZ',
+        sumaAMDC: 'L 450,000.05',
+        sumaSar: this.TventaBrutas,
+        anio: this.Anio,
+        usuario: this.User 
+    };
+
+    console.log(data);
+    this.apiRTN.saveSumaVB(data).subscribe(
+      responseData => {
+        console.log(responseData);
+      },
+      error => {
+        this.errorMessage = error?.error?.message || 'Error desconocido';
+        this.regionVisible = 'error';
+        this.isLoadding = false;
+        console.log(this.errorMessage);
+        console.error('Error de RTN:', error);
+      }
+    );
+    
+
       // Agregar la suma al arreglo con el formato adecuado
-      this.sumasVentasBrutas.push({ id: uniqueId, suma: totalVentas, anio: this.Anio});
+      // this.sumasVentasBrutas.push({ id: uniqueId, suma: this.TventaBrutas, anio: this.Anio});
+      this.sumasVentasBrutas.push({
+        id: uniqueId,
+        RTN: this.RTNI,
+        nombreEmpresa: 'Empresa XYZ',
+        sumaAMDC: 'L 450,000.05',
+        sumaSar: this.TventaBrutas,
+        anio: this.Anio,
+        usuario: this.User // Reemplaza 'nombre_de_usuario' con la variable o valor correcto del usuario
+    });
+
+    // suscribirse a la suma de ventas brutas
+    // this.saveSumaVVB();
 
         // Guardar el arreglo en LocalStorage
         localStorage.setItem('sumasVentasBrutas', JSON.stringify(this.sumasVentasBrutas));
@@ -158,37 +218,11 @@ export class VentabrutaComponent implements OnInit {
       this.formRtn.controls['PeriodoDesde'].setValue('');
       this.formRtn.controls['PeriodoHasta'].setValue('');
     }
+  }
 
-    // if(even == 1){
-    //   this.formRtn.controls['PeriodoDesde'].setValue('201801');
-    //   this.formRtn.controls['PeriodoHasta'].setValue('201812');
-    // }else if(even == 2){
-    //   this.formRtn.controls['PeriodoDesde'].setValue('201901');
-    //   this.formRtn.controls['PeriodoHasta'].setValue('201912');
-    // }else if(even == 3){
-    //   this.formRtn.controls['PeriodoDesde'].setValue('202001');
-    //   this.formRtn.controls['PeriodoHasta'].setValue('202012');
-    // }
-    // else if(even == 4){
-    //   this.formRtn.controls['PeriodoDesde'].setValue('202101');
-    //   this.formRtn.controls['PeriodoHasta'].setValue('202112');
-    // }
-    // else if(even == 5){
-    //   this.formRtn.controls['PeriodoDesde'].setValue('202201');
-    //   this.formRtn.controls['PeriodoHasta'].setValue('202212');
-    // }
-    // else if(even == 6){
-    //   this.formRtn.controls['PeriodoDesde'].setValue('202301');
-    //   this.formRtn.controls['PeriodoHasta'].setValue('202312');
-    // }
-    // else if(even == 7){
-    //   this.formRtn.controls['PeriodoDesde'].setValue('202401');
-    //   this.formRtn.controls['PeriodoHasta'].setValue('202412');
-    // }
-    // else{
-    //   this.formRtn.controls['PeriodoDesde'].setValue('');
-    //   this.formRtn.controls['PeriodoHasta'].setValue('');
-    // }
+  saveSumaVVB(){
+    console.log( this.sumasVentasBrutas)
+    
   }
 
 

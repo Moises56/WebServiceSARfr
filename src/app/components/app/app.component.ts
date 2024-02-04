@@ -7,10 +7,12 @@ import { SarapiService } from '../../services/sarapi.service';
 import { EMPTY, Observable, catchError, throwError } from 'rxjs';
 import { ResponseData } from '../../interfaces/consRTN.interfaces';
 import { ConsultaRTNComponent } from '../consulta-rtn/consulta-rtn.component';
+import { AuthService } from '../../services/auth.service';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AsyncPipe, CommonModule, RouterOutlet, RouterLink, PokemonComponent,NgbCollapseModule, ConsultaRTNComponent],
+  imports: [AsyncPipe, CommonModule, RouterOutlet, RouterLink, PokemonComponent,NgbCollapseModule, ConsultaRTNComponent, DashboardComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -23,25 +25,15 @@ export class AppComponent implements OnInit {
   test: any[] = [];
 
 
-  constructor(private sarapiService: SarapiService) { }
+  constructor(
+    private sarapiService: SarapiService,
+    public authService: AuthService
+    ) { }
 
   ngOnInit(): void {
-    // this.ConsultatRTN$ = this.sarapiService.getDataWithCredentials().pipe(
-    //   catchError((error: string) => {
-    //     this.errorMessages = error;
-    //     return EMPTY;
-    //   }))
+    
+    // si esta logeado 
 
-      // this.ConsultatRTN$.subscribe((data: any) => {
-      //   console.log('data1', data);
-      //   this.test = data;
-        //console.log('Dat2: ', this.test);
-        //console.log(this.test);
-
-       // console.log('data1' + data.results);
-       // this.test = data.results;
-      // }
-      // );
 
   }
 

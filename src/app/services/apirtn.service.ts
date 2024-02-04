@@ -4,6 +4,7 @@ import { Observable, catchError, of, throwError, EMPTY } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { ResponseData, RTN } from '../interfaces/consRTN.interfaces';
 import { VentasData } from '../interfaces/ventas.interface';
+import { sumaVVB } from '../interfaces/sumaVenta.interfaces';
 import { errorHandlerInterceptor } from '../interceptors/error-handler.interceptor';
 
 @Injectable({
@@ -34,6 +35,22 @@ export class ApirtnService {
       catchError(this.errorHandler)
     );
   }
+
+  //suma de ventas brutas con los siguientes parametros RTN, nombreEmpresa, sumaAMDC, sumaSar, anio, usuario a la rura urlSumVB
+  saveSumaVB(data:sumaVVB): Observable<sumaVVB>{
+    console.log(data.RTN, data.nombreEmpresa, data.sumaAMDC, data.sumaSar, data.anio, data.usuario)
+    return this.http.post<sumaVVB>(`${environment.urlSumaVB}`,{
+      RTN: data.RTN,
+      nombreEmpresa: data.nombreEmpresa,
+      sumaAMDC: data.sumaAMDC,
+      sumaSar: data.sumaSar,
+      anio: data.anio,
+      usuario: data.usuario
+    }).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+  
 
   errorHandler(error: any) {
     // console.log(error.error.message);
