@@ -54,12 +54,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // if (this.tokenStorage.isLoggedIn()) {
-    //   this.isLoggedIn = true;
-    //   this.roles = this.tokenStorage.getUser().roles;
-    // }
-
-
     this.form = this.fb.group(
       {
         email: ['', [Validators.required, Validators.email]],
@@ -89,20 +83,11 @@ export class LoginComponent implements OnInit {
       email: this.form.value.email,
       password: this.form.value.password
     };
-    console.log(data)
-
     this.authService.signin(data).subscribe(
       res => {
-        console.log(res);
-
         if (res.accessToken) {
           localStorage.setItem('token',res.accessToken); // * Guardando token en localStorage
-          // this.tokenStorage.saveToken(res.accessToken);
-          // guardar el user en el localstorage
           localStorage.setItem('auth-user', JSON.stringify(res)); // * Guardando token en localStorage
-
-          // giardar el token en el sessionstorage
-          // sessionStorage.setItem('auth-token', res.accessToken);
   
           this.isLoginFailed = false;
           this.isLoggedIn = true;

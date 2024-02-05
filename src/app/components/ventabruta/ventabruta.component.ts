@@ -29,6 +29,7 @@ export class VentabrutaComponent implements OnInit {
   Year:any = '';
   selectedYear: number = 0;
   User: any = '';
+  UserId: any = '';
 
   public VentaBruta$!: Observable<ResponseData>;
   public TventaBrutas:string = '';
@@ -64,11 +65,8 @@ export class VentabrutaComponent implements OnInit {
   sendData() {
     // recuperar el año seleccionado en la localstorage
     this.Year = localStorage.getItem('Year');
-    console.log(this.Year);
-
     this.RTNI = this.formRtn.value.Rtn;
     this.Anio = this.formRtn.value.Anio;
-    console.log(this.Anio)
 
     this.onSelecAnio(this.Anio);
 
@@ -78,7 +76,6 @@ export class VentabrutaComponent implements OnInit {
       PeriodoHasta: this.formRtn.value.PeriodoHasta,
     };
 
-    console.log(data);
     this.isLoadding = true;
 
     this.apiRTN.getVentaBruta(data).subscribe(
@@ -90,7 +87,6 @@ export class VentabrutaComponent implements OnInit {
         this.regionVisible = 'data';
         this.isLoadding = false;
         localStorage.setItem('ventasData', JSON.stringify(this.ventasData));
-        console.log('Datos de ventas cargados exitosamente', this.ventasData);
 
         // Calcular suma del volumen de ventas
         let totalVentas = 0;
@@ -125,16 +121,17 @@ export class VentabrutaComponent implements OnInit {
           const username = userData.username;
           this.User = username;
 
-          // Usar el nombre de usuario como desees
-          console.log('Nombre de usuario:', username);
+          const userId = userData.id;
+          this.UserId = userId;
       } else {
-          console.error('No se encontraron datos de usuario en la localstorage.');
+          console.error('Error: data not found ');
       }
 
 
       // save database
 
       const data = {
+        userId: this.UserId,
         RTN: this.RTNI,
         nombreEmpresa: 'Empresa XYZ',
         sumaAMDC: 'L 450,000.05',
@@ -143,7 +140,6 @@ export class VentabrutaComponent implements OnInit {
         usuario: this.User 
     };
 
-    console.log(data);
     this.apiRTN.saveSumaVB(data).subscribe(
       responseData => {
         console.log(responseData);
@@ -170,14 +166,9 @@ export class VentabrutaComponent implements OnInit {
         usuario: this.User // Reemplaza 'nombre_de_usuario' con la variable o valor correcto del usuario
     });
 
-    // suscribirse a la suma de ventas brutas
-    // this.saveSumaVVB();
-
         // Guardar el arreglo en LocalStorage
         localStorage.setItem('sumasVentasBrutas', JSON.stringify(this.sumasVentasBrutas));
-        console.log(`Total de ventas: ${totalVentas}`);
 
-        // Recuperar el arreglo del LocalStorage
         let sumasVentasBrutasLS = localStorage.getItem('sumasVentasBrutas');
         this.sumasVentasBrutas = JSON.parse(sumasVentasBrutasLS || '[]');
         console.log('Datos de sumasVentasBrutas descargados exitosamente', this.sumasVentasBrutas);
@@ -232,17 +223,4 @@ export class VentabrutaComponent implements OnInit {
   }
 
 }
-
-/*
-  (data) => {
-        this.ventasData = data;
-        this.isLoadding = false;
-
-        console.log('Datos de ventas cargados exitosamente', this.ventasData);
-      },
-      (error) => {
-        console.error('Error al consumir la API:', error.message);
-        this.errorMessage = error.message;
-      }
-*/
 

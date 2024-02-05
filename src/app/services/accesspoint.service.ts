@@ -7,6 +7,7 @@ import {  EventEmitter, Injectable, Output } from '@angular/core';
 export class AccesspointService {
 
   @Output() onToken: EventEmitter<any> = new EventEmitter();
+  @Output() onRol: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 }

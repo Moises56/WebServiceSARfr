@@ -5,11 +5,14 @@ export interface SumaVentasBrutasI {
 }
 
 export interface sumaVVB {
-  id?: number; // o el tipo correcto para tu ID
+  userId?: String, // o el tipo correcto para tu ID
+  id?: number, // o el tipo correcto para tu ID
+  _id?: String,
   RTN: String, 
   nombreEmpresa: String , 
   sumaAMDC: String, 
   sumaSar: String, 
   anio: String, 
   usuario: String
+  createdAt?: String
 }

@@ -8,6 +8,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { authGuard } from './guards/auth.guard';
 import { MisconsultasComponent } from './components/misconsultas/misconsultas.component';
 import { BitacoraComponent } from './components/bitacora/bitacora.component';
+import { rolGuard } from './guards/rol.guard';
+import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 
 export const routes: Routes = [
     { path: '',redirectTo:'home', pathMatch:'full'},
@@ -18,7 +20,8 @@ export const routes: Routes = [
     { path: 'consultartn', title:'consultartn', component: ConsultaRTNComponent, canMatch: [authGuard]},
     { path: 'ventabruta', title:'ventabruta', component: VentabrutaComponent, canMatch: [authGuard]},
     {path: 'misconsultas', title:'misconsultas', component: MisconsultasComponent , canMatch: [authGuard]},
-    {path: 'bitacora', title:'dashboard', component: BitacoraComponent , canMatch: [authGuard]},
+    {path: 'bitacora', title:'dashboard', component: BitacoraComponent , canMatch: [authGuard, rolGuard]},
+    {path: 'not-authorized', title:'not-authorized', component: NotAuthorizedComponent},
 
     
     { path: '**', loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent)}

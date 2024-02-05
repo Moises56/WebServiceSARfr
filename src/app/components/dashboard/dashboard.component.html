@@ -1,84 +1,100 @@
 
 <!-- <div class="area"></div> -->
-<nav class="main-menu">
-  <ul>
-    <!-- Nombre del usuario con img y tipo de rol-->
-    <li class="has-subnav">
-      <a href="#">
-        <!-- <i class="fa fa-address-card fa-2x"></i> -->
-        <i class="fa fa-fingerprint fa-2x"></i>
-        <span class="nav-text">
-          {{User}}-{{Rol}}
-          <!-- {{authService.getUser().nombre}} -->
-        </span>
-      </a>
-    </li>
+<div class="container">
+  <div class="row">
+    <div class="col">
+
+      <nav class="main-menu">
+        <ul>
+          <!-- Nombre del usuario con img y tipo de rol-->
+          <li class="has-subnav">
+            <a [routerLink]="'/dashboard'">
+              <!-- <i class="fa fa-address-card fa-2x"></i> -->
+              <i class="fa fa-fingerprint fa-2x"></i>
+              <span class="nav-text">
+                {{User}} {{Rol}}
+                <!-- {{authService.getUser().nombre}} -->
+              </span>
+            </a>
+          </li>
+      
+      
+          <li>
+            <a [routerLink]="'/home'">
+              <i class="fa fa-home fa-2x"></i>
+              <span class="nav-text">
+               Inicio
+              </span>
+            </a>
+          </li>
+      
+          <li class="has-subnav">
+            <a [routerLink]="'/ventabruta'">
+              <!-- <i class="fa fa-globe fa-2x"></i> -->
+              <i class="fa fa-chart-line fa-2x"></i>         
+               <span class="nav-text">
+               Ventas Brutas
+              </span>
+            </a>
+      
+          </li>
+          <li class="has-subnav">
+            <a [routerLink]="'/consultartn'">
+              <i class="fa fa-comment-dots fa-2x"></i>
+              <span class="nav-text">
+               Consulta RTN
+              </span>
+            </a>
+      
+          </li>
+          <li class="has-subnav">
+            <a [routerLink]="'/misconsultas'">
+              <i class="fa fa-folder-open fa-2x"></i>
+              <span class="nav-text">
+                Todas Mis Consultas
+              </span>
+            </a>
+      
+          </li>
+          @if (Rol === 'ROLE_ADMIN') {
+            <li>
+              <a [routerLink]="'/bitacora'">
+                <i class="fa fa-book fa-2x"></i>
+                <span class="nav-text">
+                  Bitácora
+                </span>
+              </a>
+            </li>
+
+          }
+         
+          <!-- <li>
+            <a [routerLink]="'/dashboard'">
+              <i class="fa fa-user fa-2x"></i>
+              <span class="nav-text">
+                Mi Perfil
+              </span>
+            </a>
+          </li> -->
+          
+        </ul>
+      
+        <ul class="logout">
+          <li>
+            <a (click)="authService.logout()">
+              <i class="fa fa-power-off fa-2x"></i>
+              <span class="nav-text">
+                Salir
+              </span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
 
 
-    <li>
-      <a [routerLink]="'/home'">
-        <i class="fa fa-home fa-2x"></i>
-        <span class="nav-text">
-         Inicio
-        </span>
-      </a>
-    </li>
 
-    <li class="has-subnav">
-      <a [routerLink]="'/ventabruta'">
-        <!-- <i class="fa fa-globe fa-2x"></i> -->
-        <i class="fa fa-chart-line fa-2x"></i>         
-         <span class="nav-text">
-         Ventas Brutas
-        </span>
-      </a>
 
-    </li>
-    <li class="has-subnav">
-      <a [routerLink]="'/consultartn'">
-        <i class="fa fa-comment-dots fa-2x"></i>
-        <span class="nav-text">
-         Consulta RTN
-        </span>
-      </a>
-
-    </li>
-    <li class="has-subnav">
-      <a [routerLink]="'/misconsultas'">
-        <i class="fa fa-folder-open fa-2x"></i>
-        <span class="nav-text">
-          Todas Mis Consultas
-        </span>
-      </a>
-
-    </li>
-    <li>
-      <a [routerLink]="'/bitacora'">
-        <i class="fa fa-book fa-2x"></i>
-        <span class="nav-text">
-          Bitacora
-        </span>
-      </a>
-    </li>
-    <li>
-      <a [routerLink]="'/dashboard'">
-        <i class="fa fa-user fa-2x"></i>
-        <span class="nav-text">
-          Mi Perfil
-        </span>
-      </a>
-    </li>
-    
-  </ul>
-
-  <ul class="logout">
-    <li>
-      <a (click)="authService.logout()">
-        <i class="fa fa-power-off fa-2x"></i>
-        <span class="nav-text">
-          Salir
-        </span>
-      </a>
-    </li>
-  </ul>
-</nav>
+    </div>
+  </div>
+</div>

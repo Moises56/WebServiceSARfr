@@ -38,8 +38,10 @@ export class ApirtnService {
 
   //suma de ventas brutas con los siguientes parametros RTN, nombreEmpresa, sumaAMDC, sumaSar, anio, usuario a la rura urlSumVB
   saveSumaVB(data:sumaVVB): Observable<sumaVVB>{
-    console.log(data.RTN, data.nombreEmpresa, data.sumaAMDC, data.sumaSar, data.anio, data.usuario)
-    return this.http.post<sumaVVB>(`${environment.urlSumaVB}`,{
+    console.log(data.RTN, data.nombreEmpresa, data.sumaAMDC, data.sumaSar, data.anio, data.usuario, data.userId)
+    return this.http.post<sumaVVB>(`${environment.urlSumaVB}/sumaVentaBruta`,{
+      // `${environment.urLogin}/signin`
+      userId: data.userId,
       RTN: data.RTN,
       nombreEmpresa: data.nombreEmpresa,
       sumaAMDC: data.sumaAMDC,
@@ -50,7 +52,22 @@ export class ApirtnService {
       catchError(this.errorHandler)
     );
   }
-  
+
+  // obtener todas las sumas de ventas brutas
+  getSumaVB(): Observable<sumaVVB[]>{
+    return this.http.get<sumaVVB[]>(`${environment.urlSumaVB}/getSumaVVB`).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+  // obtener todas las sumas de ventas brutas por el idUSer
+  getSumaVBIdUser(userId: string): Observable<sumaVVB[]>{
+    return this.http.get<sumaVVB[]>(`${environment.urlSumaVB}/getSumaVVB/${userId}`).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+ 
 
   errorHandler(error: any) {
     // console.log(error.error.message);

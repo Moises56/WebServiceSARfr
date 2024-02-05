@@ -6,57 +6,85 @@ import { ResponseData, RTN } from '../interfaces/consRTN.interfaces';
 import { VentasData } from '../interfaces/ventas.interface';
 import { errorHandlerInterceptor } from '../interceptors/error-handler.interceptor';
 import { Router } from '@angular/router';
+import { AccesspointService } from './accesspoint.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private accesspointService: AccesspointService
+  ) {}
 
-  constructor(private http: HttpClient, private router: Router) { }
-
-  
-  signin(data: any): Observable<any>{
-    return this.http.post(
-      `${environment.urLogin}/signin`,
-      {
+  signin(data: any): Observable<any> {
+    return this.http
+      .post(`${environment.urLogin}/signin`, {
         email: data.email,
-        password: data.password
-      }
-    ).pipe(
-      catchError(this.errorHandler)
-    );
-    
+        password: data.password,
+      })
+      .pipe(catchError(this.errorHandler));
   }
 
-  loggedIng(){
-    // si el token existe retorna true si no false 
-    
+  loggedIng() {
     if (typeof localStorage !== 'undefined') {
       // Your code that uses localStorage goes here
-      return !!localStorage.getItem('token');
-    } else {
-      // Handle the case when localStorage is not available
-      return console.error('localStorage is not available');
+      const userDataString = localStorage.getItem('auth-user');
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        // console.log(userData.accessToken);
+        const token = userData.accessToken;
+        // console.log(token);
+        if (token) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        // Handle the case when localStorage is not available
+        return console.log('not found');
+      }
     }
-  
   }
 
-  getToken(){
+  getToken() {
     return localStorage.getItem('token');
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('auth-user');
     this.router.navigate(['/signin']);
   }
 
+  // rol de usuario es admin
+  isAdmin() {
+    if (typeof localStorage !== 'undefined') {
+      // Your code that uses localStorage goes here
+      const userDataString = localStorage.getItem('auth-user');
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        const rol = userData.roles[0];
+        if (rol === 'ROLE_ADMIN') {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return console.error(
+          'No se encontraron datos de usuario en la localstorage.'
+        );
+      }
+    } else {
+      // Handle the case when localStorage is not available
+      return console.error('localStorage is not available role');
+    }
+  }
 
   errorHandler(error: any) {
     // console.log(error.error.message);
     console.error('Error en la petición:', error);
-    return throwError({ error: error || "Server Error" });
+    return throwError({ error: error || 'Server Error' });
   }
-
-
 }
