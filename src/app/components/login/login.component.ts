@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-// o
 import { CommonModule } from '@angular/common';
 
 import { AuthService } from '../../services/auth.service';

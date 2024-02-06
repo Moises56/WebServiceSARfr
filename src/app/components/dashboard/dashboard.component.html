@@ -1,100 +1,130 @@
+<div [ngClass]="{'sidebar': true, 'active': isActive}" (click)="toggleActive()">
+  <div class="logo-content">
+    <div class="logo">
+    </div>
+    <i class="bx bx-menu" id="btn"></i>
+  </div>
+  <ul class="nav-list">
 
-<!-- <div class="area"></div> -->
-<div class="container">
-  <div class="row">
-    <div class="col">
+    <li>
+      <i class='bx bx-home-alt-2'></i>
+      <!-- <i class='bx bx-search' ></i> -->
+      <button class="btn btn-redactar" (click)="onHome()">Home</button>
+      <span class="tooltip">Inicio</span>
+    </li>
 
-      <nav class="main-menu">
-        <ul>
-          <!-- Nombre del usuario con img y tipo de rol-->
-          <li class="has-subnav">
-            <a [routerLink]="'/dashboard'">
-              <!-- <i class="fa fa-address-card fa-2x"></i> -->
-              <i class="fa fa-fingerprint fa-2x"></i>
-              <span class="nav-text">
-                {{User}} {{Rol}}
-                <!-- {{authService.getUser().nombre}} -->
-              </span>
-            </a>
-          </li>
-      
-      
-          <li>
-            <a [routerLink]="'/home'">
-              <i class="fa fa-home fa-2x"></i>
-              <span class="nav-text">
-               Inicio
-              </span>
-            </a>
-          </li>
-      
-          <li class="has-subnav">
-            <a [routerLink]="'/ventabruta'">
-              <!-- <i class="fa fa-globe fa-2x"></i> -->
-              <i class="fa fa-chart-line fa-2x"></i>         
-               <span class="nav-text">
-               Ventas Brutas
-              </span>
-            </a>
-      
-          </li>
-          <li class="has-subnav">
-            <a [routerLink]="'/consultartn'">
-              <i class="fa fa-comment-dots fa-2x"></i>
-              <span class="nav-text">
-               Consulta RTN
-              </span>
-            </a>
-      
-          </li>
-          <li class="has-subnav">
-            <a [routerLink]="'/misconsultas'">
-              <i class="fa fa-folder-open fa-2x"></i>
-              <span class="nav-text">
-                Todas Mis Consultas
-              </span>
-            </a>
-      
-          </li>
-          @if (Rol === 'ROLE_ADMIN') {
-            <li>
-              <a [routerLink]="'/bitacora'">
-                <i class="fa fa-book fa-2x"></i>
-                <span class="nav-text">
-                  Bitácora
-                </span>
-              </a>
-            </li>
+    @if (Rol === 'ROLE_ADMIN') {
+    <li>
+      <a Class="cursor-acti" (click)="onUser()">
+        <!-- <i class='bx bx-chat' ></i> -->
+        <i class="bx bx-user"></i>
+        <span class="links-name ">Usuarios</span>
+      </a>
+      <span class="tooltip">Usuarios</span>
+    </li>
+  }
 
-          }
-         
-          <!-- <li>
-            <a [routerLink]="'/dashboard'">
-              <i class="fa fa-user fa-2x"></i>
-              <span class="nav-text">
-                Mi Perfil
-              </span>
-            </a>
-          </li> -->
-          
-        </ul>
-      
-        <ul class="logout">
-          <li>
-            <a (click)="authService.logout()">
-              <i class="fa fa-power-off fa-2x"></i>
-              <span class="nav-text">
-                Salir
-              </span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      
-
-
-
-
+    <li>
+      <a class="cursor-acti" (click)="onVentaB()" >
+        <!-- <i class='bx bx-send'></i> -->
+        <i class="bx bx-money"></i>
+        <span class="links-name">Ventas Brutas</span>
+      </a>
+      <span class="tooltip">Ventas Brutas</span>
+    </li>
+    <li>
+      <a (click)="onConsRtn()">
+        <!-- <i class='bx bx-star'></i> -->
+        <i class="bx bx-analyse"></i>
+        <span class="links-name">Consulta RTN</span>
+      </a>
+      <span class="tooltip">Consulta RTN</span>
+    </li>
+    <li>
+      <a (click)="onMisConsultas()">
+        <i class="bx bx-star"></i>
+        <span class="links-name">Mis Consultas</span>
+      </a>
+      <span class="tooltip">Mis Consultas</span>
+    </li>
+    @if (Rol === 'ROLE_ADMIN') {
+    <li>
+      <a (click)="onBitacora()">
+        <i class="bx bx-folder"></i>
+        <span class="links-name">Bitácora</span>
+      </a>
+      <span class="tooltip">Bitácora</span>
+    </li>
+  }
+  </ul>
+  <div class="profile-content">
+    <div class="profile">
+      <div class="profile-details">
+        <img src="../../../assets/img/perfil/profile.png" alt="">
+        <!-- icono de profile -->
+        <!-- <i class='bx bx-user-circle' ></i> -->
+        <div class="name-job">
+          <div class="name">{{User}}</div>
+          <div class="job">{{Rol}}</div>
+        </div>
+      </div>
+      <i class="bx bx-power-off hands" id="log-out" (click)="authService.logout()"></i>
     </div>
   </div>
+</div>
+
+<div class="home-content pt-5 mr-2">
+  <!-- <div class="text">Home Content</div> -->
+
+  <!-- <h1>A un minuto de ti</h1> -->
+  <div class="contenedor">
+
+    <!-- <p>Table is just a mapping of objects to table rows with <code>&#64;for</code></p> -->
+
+    <div [ngClass]="{'visible':regionVisible == 'inicio', 'no-visible':regionVisible != 'inicio'}">
+      <div>
+        <app-home></app-home>
+      </div>
+    </div>
+
+    <div [ngClass]="{'visible':regionVisible == 'user', 'no-visible':regionVisible != 'user'}">
+      <div>
+        <app-user></app-user>
+      </div>
+    </div>
+
+    <!-- mostrar solicitudComponete -->
+    <div [ngClass]="{'visible':regionVisible == 'ventasBrutas', 'no-visible':regionVisible != 'ventasBrutas'}">
+      <div>
+        <app-ventabruta></app-ventabruta>
+      </div>
+    </div>
+
+    <!-- SolaprobadaComponent -->
+    <div [ngClass]="{'visible':regionVisible == 'consultaRtn', 'no-visible':regionVisible != 'consultaRtn'}">
+      <div>
+        <app-consulta-rtn></app-consulta-rtn>
+      </div>
+    </div>
+
+    <!-- MisConsultasComponent -->
+    <div [ngClass]="{'visible':regionVisible == 'misConsultas', 'no-visible':regionVisible != 'misConsultas'}">
+      <div>
+      <app-misconsultas></app-misconsultas>
+      </div>
+    </div>
+
+    <!-- BitacoraComponent -->
+    <div [ngClass]="{'visible':regionVisible == 'bitacora', 'no-visible':regionVisible != 'bitacora'}">
+      <div>
+        <app-bitacora></app-bitacora>
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+
 </div>

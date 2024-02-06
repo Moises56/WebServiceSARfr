@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink } from '@angular/router';
 import { PokemonComponent } from '../pokemon/pokemon.component';
@@ -24,6 +24,11 @@ export class AppComponent implements OnInit {
 
   test: any[] = [];
 
+  isMenuCollapsed = true;
+  loggedIn:boolean = false;
+  // @Input() :boolean = false
+  @Output() addVisibleEvent = new EventEmitter<boolean>();
+
 
   constructor(
     private sarapiService: SarapiService,
@@ -31,10 +36,12 @@ export class AppComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    
-    // si esta logeado 
+
+  }
 
 
+  visible(){
+    // this.accesspoint.onVisible.emit(false);
   }
 
 }

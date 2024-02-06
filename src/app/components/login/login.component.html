@@ -12,7 +12,9 @@
         <div class="contenedor">
           <div class="screen">
             <div class="screen__content">
+
               <form class="login"[formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off" novalidate >
+               
                 <div class="login__field">
                   <i class="login__icon fas fa-user"></i>
                   <input type="text" class="login__input" placeholder="Usuario / Email" formControlName="email"
@@ -30,6 +32,7 @@
                     </div>
                     }
                 </div>
+
                 <div class="login__field">
                   <i class="login__icon fas fa-lock"></i>
                   <input type="password" class="login__input" placeholder="Contraseña" formControlName="password"

@@ -1,52 +1,60 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand spacio" [routerLink]="'/home'">AMDC</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" (click)="collapse.toggle()">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
-      <ul class="navbar-nav ms-auto ml-auto py-4 py-lg-0">
+ <!-- ======= Header ======= -->
+ <header id="header" class="fixed-top  header-transparent ">
+  <div class="container d-flex align-items-center justify-content-between">
 
-        <li class="nav-item">
-          <a class="nav-link spacio active " aria-current="page" [routerLink]="'/home'">Inicio</a>
-        </li>
-
-        <ng-container *ngIf="!authService.loggedIng(); else loggedIng">
-          <li class="nav-item">
-            <a class="nav-link spacio" [routerLink]="'/login'">Iniciar Sesión</a>
-          </li>
-        </ng-container>
-
-        <ng-template #loggedIng>
-          <li class="nav-item">
-            <a class="nav-link spacio" [routerLink]="'/dashboard'">Dashboard</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link spacio" [routerLink]="'/consultartn'">Consulta RTN</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link spacio" [routerLink]="'/ventabruta'">Venta Bruta</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link spacio" (click)="authService.logout()">Cerrar Sesión</a>
-          </li>
-        </ng-template>
-
-      </ul>
+    <div class="logo">
+      <!-- <h1><a routerLink="/inicio"><strong>UGA</strong></a></h1> -->
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <a href="index.html"><img src="./assets/img/LOGOWEB.png" alt="" class="img-fluid"></a>
     </div>
-  </div>
-</nav>
 
+    <nav id="navbar" class="navbar">
 
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <router-outlet></router-outlet>
+        <ul>
+
+          <li class="nav-item">
+            <a class="nav-link spacio active " aria-current="page" [routerLink]="'/home'">Inicio</a>
+          </li>
+  
+          <ng-container *ngIf="!authService.loggedIng(); else loggedIng">
+            <li class="nav-item">
+              <a class="nav-link scrollto" [routerLink]="'/login'">Iniciar Sesión</a>
+            </li>
+          </ng-container>
+  
+          <ng-template #loggedIng>
+            <li class="nav-item">
+              <a class="nav-link scrollto" [routerLink]="'/dashboard'">Dashboard</a>
+            </li>
+  
+            <li class="nav-item">
+              <a class="nav-link scrollto" [routerLink]="'/consultartn'">Consulta RTN</a>
+            </li>
+  
+            <li class="nav-item">
+              <a class="nav-link scrollto" [routerLink]="'/ventabruta'">Venta Bruta</a>
+            </li>
+  
+            <li class="nav-item">
+              <a class="nav-link scrollto" (click)="authService.logout()">Cerrar Sesión</a>
+            </li>
+          </ng-template>
+          
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
 
     </div>
+  </header><!-- End Header -->
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <router-outlet></router-outlet>
+  
+      </div>
+    </div>
   </div>
-</div>
+

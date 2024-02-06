@@ -9,7 +9,11 @@ export const environment = {
   // urLogin: `http://localhost:3001/api/auth/signin`,
   urLogin: `https://api.amdc.hn:9091/api/auth`,
 
-  //urlSumaVB: `https://api.amdc.hn:9091/api/sumaVentaBruta`,
-  urlSumaVB: `http://localhost:3001/api`,
+  urlSumaVB: `https://api.amdc.hn:9091/api/`,
+  urlUser: `https://api.amdc.hn:9091/api/users`,
+
+  //?Development
+  // urlSumaVB: `http://localhost:3001/api`,
+  // urlUser: `http://localhost:3001/api/users`,
 
 };

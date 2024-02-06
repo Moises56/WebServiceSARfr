@@ -213,14 +213,10 @@ export class VentabrutaComponent implements OnInit {
 
   saveSumaVVB(){
     console.log( this.sumasVentasBrutas)
-    
   }
 
 
 
-  saveConsulta(){
-    this.regionVisible = 'verInfoSar';
-  }
 
 }
 

@@ -15,7 +15,6 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private accesspointService: AccesspointService
   ) {}
 
   signin(data: any): Observable<any> {

@@ -8,11 +8,20 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ApirtnService } from '../../services/apirtn.service';
 import { AccesspointService } from '../../services/accesspoint.service';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { BitacoraComponent } from '../bitacora/bitacora.component';
+import { MisconsultasComponent } from '../misconsultas/misconsultas.component';
+import { HomeComponent } from '../home/home.component';
+import { UserComponent } from '../user/user.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, NgClass, VentabrutaComponent, ConsultaRTNComponent],
+  imports: [
+    RouterLink, NgClass, NgbCollapseModule,
+    VentabrutaComponent, ConsultaRTNComponent, BitacoraComponent, 
+    MisconsultasComponent, HomeComponent, UserComponent
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -20,6 +29,8 @@ export class DashboardComponent implements OnInit {
   regionVisible: String = '';
   User: any = '';
   Rol: any = '';
+  isMenuCollapsed = true;
+  isActive: boolean = false;
 
   constructor(
     public authService: AuthService,
@@ -47,18 +58,33 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  mostrar() {
+
+  toggleActive() {
+    this.isActive = !this.isActive;
+  }
+
+
+  onUser() {
     // mostrar la region al hacer click y manternerla visible
     this.regionVisible = 'user';
   }
 
-  ConsultaRtn() {
+  onHome() {
     // mostrar la region al hacer click y manternerla visible
+    this.regionVisible = 'inicio';
+  }
+
+  onConsRtn() {
     this.regionVisible = 'consultaRtn';
   }
 
-  VentasBruta() {
-    // mostrar la region al hacer click y manternerla visible
+  onVentaB() {
     this.regionVisible = 'ventasBrutas';
+  }
+  onBitacora() {
+    this.regionVisible = 'bitacora';
+  }
+  onMisConsultas() {
+    this.regionVisible = 'misConsultas';
   }
 }
