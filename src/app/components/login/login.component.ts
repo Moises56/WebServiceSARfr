@@ -34,9 +34,6 @@ export class LoginComponent implements OnInit {
   submitted = false; 
 
 
-
-
-
   constructor(
     private authService: AuthService,
     private tokenStorage: TokenStorageService,
@@ -94,6 +91,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard']);
           
         }else if(res.message){
+          console.log(res.message)
           this.errorMessage = res.message;
           this.isLoginFailed = false;
         }

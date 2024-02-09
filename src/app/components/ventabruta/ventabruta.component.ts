@@ -8,49 +8,97 @@ import { RouterLink } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { VentasData } from '../../interfaces/ventas.interface';
 import { sumaVVB } from '../../interfaces/sumaVenta.interfaces';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+
+
+interface Alert {
+	type: string;
+	message: string;
+}
+
+const ALERTS: Alert[] = [
+	{
+		type: 'success',
+		message: 'This is an success alert',
+	},
+	{
+		type: 'info',
+		message: 'This is an info alert',
+	},
+	{
+		type: 'warning',
+		message: 'This is a warning alert',
+	},
+	{
+		type: 'danger',
+		message: 'This is a danger alert',
+	},
+	{
+		type: 'primary',
+		message: 'This is a primary alert',
+	},
+	{
+		type: 'secondary',
+		message: 'This is a secondary alert',
+	},
+	{
+		type: 'light',
+		message: 'This is a light alert',
+	},
+	{
+		type: 'dark',
+		message: 'This is a dark alert',
+	},
+];
 
 @Component({
   selector: 'app-ventabruta',
   standalone: true,
-  imports: [AsyncPipe,RouterLink,CommonModule, HttpClientModule,ReactiveFormsModule],
+  imports: [
+    AsyncPipe,
+    RouterLink,
+    CommonModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgbAlertModule
+  ],
   templateUrl: './ventabruta.component.html',
-  styleUrl: './ventabruta.component.css'
+  styleUrl: './ventabruta.component.css',
 })
 export class VentabrutaComponent implements OnInit {
-[x: string]: any;
+  [x: string]: any;
   ventasData!: VentasData;
-  isLoadding:boolean = false;
+  isLoadding: boolean = false;
   regionVisible: String = '';
-  i:number = 0;
-  RTNI:any  = '';
+  i: number = 0;
+  RTNI: any = '';
   public sumasVentasBrutas: sumaVVB[] = [];
   public idCounter = 1; // Contador para generar IDs únicos
-  Anio:any = '';
-  Year:any = '';
+  Anio: any = '';
+  Year: any = '';
   selectedYear: number = 0;
   User: any = '';
   UserId: any = '';
 
   public VentaBruta$!: Observable<ResponseData>;
-  public TventaBrutas:string = '';
+  public TventaBrutas: string = '';
 
   public errorMessages!: string;
   errorMessage: string = ''; // Variable para almacenar el mensaje de error
-
+  errorMessage1: string = ''; // Variable para almacenar el mensaje de error
 
   responseData!: ResponseData;
 
-  constructor(
-    private apiRTN: ApirtnService,
-  ) { }
+  alerts!: Alert[];
+
+  constructor(private apiRTN: ApirtnService) {}
 
   formRtn = new FormGroup({
     Rtn: new FormControl(''),
     PeriodoDesde: new FormControl(''),
     PeriodoHasta: new FormControl(''),
-    Anio: new FormControl('')
+    Anio: new FormControl(''),
   });
-
 
   ngOnInit(): void {
     // this.ConsultatRTN$ = this.apiRTN.getconsultaRTN().pipe(
@@ -58,9 +106,13 @@ export class VentabrutaComponent implements OnInit {
     //        this.errorMessages = error;
     //        return EMPTY;
     //      }))
-
-   // this.sendData()
+    // this.sendData()
   }
+
+  close() {
+    //cerrar
+
+	}
 
   sendData() {
     // recuperar el año seleccionado en la localstorage
@@ -79,118 +131,149 @@ export class VentabrutaComponent implements OnInit {
     this.isLoadding = true;
 
     this.apiRTN.getVentaBruta(data).subscribe(
-      responseData => {
+      //   (responseData: { customError: CustomError }) => {
+      //     console.log(responseData.customError.message);
+      // }
+
+      (responseData) => {
         console.log(responseData);
 
-        // Guardar datos en LocalStorage
-        this.ventasData = responseData;
-        this.regionVisible = 'data';
-        this.isLoadding = false;
-        localStorage.setItem('ventasData', JSON.stringify(this.ventasData));
+        try {
+          if (responseData.customError !== undefined) {
+            console.log(responseData.customError);
 
-        // Calcular suma del volumen de ventas
-        let totalVentas = 0;
-        const ventasBrutas = responseData.data.ventasBrutas;
+            this.errorMessage1 = responseData.customError.message;
+            console.log(this.errorMessage1);
+            this.isLoadding = false;
 
-        for (const key in ventasBrutas) {
-          if (ventasBrutas.hasOwnProperty(key)) {
-            const value = ventasBrutas[key];
-            // console.log(`${key}: ${value}`);
+            //abrir el alert
+            
 
-            // Verificar si el valor es numérico antes de sumarlo
-            if (typeof value === 'number') {
-              totalVentas += value;
+          } else if (responseData.data !== undefined) {
+            console.log(responseData.data !== undefined);
+
+            // Guardar datos en LocalStorage
+            this.ventasData = responseData;
+            this.regionVisible = 'data';
+            this.isLoadding = false;
+            localStorage.setItem('ventasData', JSON.stringify(this.ventasData));
+
+            // Calcular suma del volumen de ventas
+            let totalVentas = 0;
+            const ventasBrutas = responseData.data.ventasBrutas;
+
+            for (const key in ventasBrutas) {
+              if (ventasBrutas.hasOwnProperty(key)) {
+                const value = ventasBrutas[key];
+                // console.log(`${key}: ${value}`);
+
+                // Verificar si el valor es numérico antes de sumarlo
+                if (typeof value === 'number') {
+                  totalVentas += value;
+                }
+              }
             }
+
+            const uniqueId = this.idCounter++;
+
+            // separar por comas los miles y decimales de la suma de ventas brutas en lempiras
+            this.TventaBrutas = totalVentas.toLocaleString('es-HN', {
+              style: 'currency',
+              currency: 'HNL',
+            });
+
+            //obtener al usuario logueado
+            const userDataString = localStorage.getItem('auth-user');
+
+            // Verificar si los datos existen
+            if (userDataString) {
+              // Parsear los datos del usuario desde formato JSON a un objeto de TypeScript
+              const userData = JSON.parse(userDataString);
+
+              // Obtener el nombre de usuario
+              const username = userData.username;
+              this.User = username;
+
+              const userId = userData.id;
+              this.UserId = userId;
+            } else {
+              console.error('Error: data not found ');
+            }
+
+            // save database
+
+            const data = {
+              userId: this.UserId,
+              RTN: this.RTNI,
+              nombreEmpresa: 'Empresa XYZ',
+              sumaAMDC: 'L 450,000.05',
+              sumaSar: this.TventaBrutas,
+              anio: this.Anio,
+              usuario: this.User,
+            };
+
+            this.apiRTN.saveSumaVB(data).subscribe(
+              (responseData) => {
+                console.log(responseData);
+              },
+              (error) => {
+                this.errorMessage =
+                  error?.error?.message || 'Error desconocido';
+                this.regionVisible = 'error';
+                this.isLoadding = false;
+                console.log(this.errorMessage);
+                console.error('Error de RTN:', error);
+              }
+            );
+
+            // Agregar la suma al arreglo con el formato adecuado
+            // this.sumasVentasBrutas.push({ id: uniqueId, suma: this.TventaBrutas, anio: this.Anio});
+            this.sumasVentasBrutas.push({
+              id: uniqueId,
+              RTN: this.RTNI,
+              nombreEmpresa: 'Empresa XYZ',
+              sumaAMDC: 'L 450,000.05',
+              sumaSar: this.TventaBrutas,
+              anio: this.Anio,
+              usuario: this.User, // Reemplaza 'nombre_de_usuario' con la variable o valor correcto del usuario
+            });
+
+            // Guardar el arreglo en LocalStorage
+            localStorage.setItem(
+              'sumasVentasBrutas',
+              JSON.stringify(this.sumasVentasBrutas)
+            );
+
+            let sumasVentasBrutasLS = localStorage.getItem('sumasVentasBrutas');
+            this.sumasVentasBrutas = JSON.parse(sumasVentasBrutasLS || '[]');
+            console.log(
+              'Datos de sumasVentasBrutas descargados exitosamente',
+              this.sumasVentasBrutas
+            );
           }
+          {
+          }
+        } catch (error) {
+          console.log(error);
         }
-
-      const uniqueId = this.idCounter++;
-
-      // separar por comas los miles y decimales de la suma de ventas brutas en lempiras
-      this.TventaBrutas = totalVentas.toLocaleString('es-HN', { style: 'currency', currency: 'HNL' });
-
-      //obtener al usuario logueado 
-      const userDataString = localStorage.getItem('auth-user');
-
-      // Verificar si los datos existen
-      if (userDataString) {
-          // Parsear los datos del usuario desde formato JSON a un objeto de TypeScript
-          const userData = JSON.parse(userDataString);
-
-          // Obtener el nombre de usuario
-          const username = userData.username;
-          this.User = username;
-
-          const userId = userData.id;
-          this.UserId = userId;
-      } else {
-          console.error('Error: data not found ');
-      }
-
-
-      // save database
-
-      const data = {
-        userId: this.UserId,
-        RTN: this.RTNI,
-        nombreEmpresa: 'Empresa XYZ',
-        sumaAMDC: 'L 450,000.05',
-        sumaSar: this.TventaBrutas,
-        anio: this.Anio,
-        usuario: this.User 
-    };
-
-    this.apiRTN.saveSumaVB(data).subscribe(
-      responseData => {
-        console.log(responseData);
       },
-      error => {
+      (error) => {
         this.errorMessage = error?.error?.message || 'Error desconocido';
         this.regionVisible = 'error';
         this.isLoadding = false;
         console.log(this.errorMessage);
-        console.error('Error de RTN:', error);
-      }
-    );
-    
-
-      // Agregar la suma al arreglo con el formato adecuado
-      // this.sumasVentasBrutas.push({ id: uniqueId, suma: this.TventaBrutas, anio: this.Anio});
-      this.sumasVentasBrutas.push({
-        id: uniqueId,
-        RTN: this.RTNI,
-        nombreEmpresa: 'Empresa XYZ',
-        sumaAMDC: 'L 450,000.05',
-        sumaSar: this.TventaBrutas,
-        anio: this.Anio,
-        usuario: this.User // Reemplaza 'nombre_de_usuario' con la variable o valor correcto del usuario
-    });
-
-        // Guardar el arreglo en LocalStorage
-        localStorage.setItem('sumasVentasBrutas', JSON.stringify(this.sumasVentasBrutas));
-
-        let sumasVentasBrutasLS = localStorage.getItem('sumasVentasBrutas');
-        this.sumasVentasBrutas = JSON.parse(sumasVentasBrutasLS || '[]');
-        console.log('Datos de sumasVentasBrutas descargados exitosamente', this.sumasVentasBrutas);
-
-      },
-      error => {
-        this.errorMessage = error?.error?.message || 'Error desconocido';
-        this.regionVisible = 'error';
-        this.isLoadding = false;
-        console.log(this.errorMessage);
-        console.error('Error de RTN:', error);
+        console.error('Error: ', error);
       }
     );
   }
 
-  onSelecAnio(even:any) {
+  onSelecAnio(even: any) {
     console.log(even);
     this.selectedYear = even;
     // si el valor es 1 entonces es el año 2018 y se enviaria desde:201801 y hasta:201812
 
     const yearMappings: { [key: number]: { desde: string; hasta: string } } = {
-      2018: { desde: '201801', hasta: '201812'},
+      2018: { desde: '201801', hasta: '201812' },
       2019: { desde: '201901', hasta: '201912' },
       2020: { desde: '202001', hasta: '202012' },
       2021: { desde: '202101', hasta: '202112' },
@@ -204,19 +287,13 @@ export class VentabrutaComponent implements OnInit {
     if (selectedYear) {
       this.formRtn.controls['PeriodoDesde'].setValue(selectedYear.desde);
       this.formRtn.controls['PeriodoHasta'].setValue(selectedYear.hasta);
-
     } else {
       this.formRtn.controls['PeriodoDesde'].setValue('');
       this.formRtn.controls['PeriodoHasta'].setValue('');
     }
   }
 
-  saveSumaVVB(){
-    console.log( this.sumasVentasBrutas)
+  saveSumaVVB() {
+    console.log(this.sumasVentasBrutas);
   }
-
-
-
-
 }
-

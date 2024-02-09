@@ -6,6 +6,8 @@ export interface ConsultaRtn {
   message:   null;
 }
 
+
+
 export interface Data {
   obligadoTributario: ObligadoTributario;
 }

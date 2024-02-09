@@ -6,13 +6,13 @@ export const environment = {
   RTNurl: `https://api.amdc.hn:9091/api/apirtn`,
   Ventaurl: `https://api.amdc.hn:9091/api/ventaBruta`,
 
-  // urLogin: `http://localhost:3001/api/auth/signin`,
   urLogin: `https://api.amdc.hn:9091/api/auth`,
-
+  
   urlSumaVB: `https://api.amdc.hn:9091/api/`,
   urlUser: `https://api.amdc.hn:9091/api/users`,
 
   //?Development
+  //urLogin: `http://localhost:3001/api/auth`,
   // urlSumaVB: `http://localhost:3001/api`,
   // urlUser: `http://localhost:3001/api/users`,
 
