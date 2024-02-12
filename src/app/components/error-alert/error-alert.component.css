@@ -1,0 +1,18 @@
+/* error-alert.component.css */
+.alert {
+    padding: 15px;
+    background-color: #f44336;
+    color: white;
+    display: none;
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+    z-index: 999;
+  }
+  
+  .show {
+    display: block;
+  }
+  

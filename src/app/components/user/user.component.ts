@@ -107,7 +107,7 @@ export class UserComponent implements OnInit {
     this.user.getUsers().subscribe(
       (res) => {
         this.Users = res;
-        console.log(this.Users);
+        // console.log(this.Users);
       },
       (error) => {
         console.log(error);

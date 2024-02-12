@@ -9,47 +9,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { VentasData } from '../../interfaces/ventas.interface';
 import { sumaVVB } from '../../interfaces/sumaVenta.interfaces';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { ErrorAlertComponent } from '../error-alert/error-alert.component';
+import { AmdcData } from '../../interfaces/amdcData.interfaces';
 
 interface Alert {
-	type: string;
-	message: string;
+  type: string;
+  message: string;
 }
-
-const ALERTS: Alert[] = [
-	{
-		type: 'success',
-		message: 'This is an success alert',
-	},
-	{
-		type: 'info',
-		message: 'This is an info alert',
-	},
-	{
-		type: 'warning',
-		message: 'This is a warning alert',
-	},
-	{
-		type: 'danger',
-		message: 'This is a danger alert',
-	},
-	{
-		type: 'primary',
-		message: 'This is a primary alert',
-	},
-	{
-		type: 'secondary',
-		message: 'This is a secondary alert',
-	},
-	{
-		type: 'light',
-		message: 'This is a light alert',
-	},
-	{
-		type: 'dark',
-		message: 'This is a dark alert',
-	},
-];
 
 @Component({
   selector: 'app-ventabruta',
@@ -60,7 +26,8 @@ const ALERTS: Alert[] = [
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgbAlertModule
+    NgbAlertModule,
+    ErrorAlertComponent,
   ],
   templateUrl: './ventabruta.component.html',
   styleUrl: './ventabruta.component.css',
@@ -68,6 +35,8 @@ const ALERTS: Alert[] = [
 export class VentabrutaComponent implements OnInit {
   [x: string]: any;
   ventasData!: VentasData;
+  NOMBRE_COMERCIAL: any = '';
+  CANTIDAD_DECLARADA: any = '';
   isLoadding: boolean = false;
   regionVisible: String = '';
   i: number = 0;
@@ -91,6 +60,9 @@ export class VentabrutaComponent implements OnInit {
 
   alerts!: Alert[];
 
+  mostrarMensajeDeError: boolean = false;
+  mensajeDeError: string = 'Este es un mensaje de error.';
+
   constructor(private apiRTN: ApirtnService) {}
 
   formRtn = new FormGroup({
@@ -99,6 +71,8 @@ export class VentabrutaComponent implements OnInit {
     PeriodoHasta: new FormControl(''),
     Anio: new FormControl(''),
   });
+
+
 
   ngOnInit(): void {
     // this.ConsultatRTN$ = this.apiRTN.getconsultaRTN().pipe(
@@ -110,9 +84,19 @@ export class VentabrutaComponent implements OnInit {
   }
 
   close() {
-    //cerrar
+    //limpiar la variable de error errorMessage1 
+    this.errorMessage1 = '';
 
-	}
+    
+  }
+
+
+  mostrarError() {
+    this.mostrarMensajeDeError = true;
+    setTimeout(() => {
+      this.mostrarMensajeDeError = false;
+    }, 3000); // Desaparecerá después de 3 segundos
+  }
 
   sendData() {
     // recuperar el año seleccionado en la localstorage
@@ -128,6 +112,31 @@ export class VentabrutaComponent implements OnInit {
       PeriodoHasta: this.formRtn.value.PeriodoHasta,
     };
 
+    const data2 = {
+      RTN: this.formRtn.value.Rtn,
+      ANIO:  this.Anio,
+    }
+    console.log(data2);
+    this.apiRTN.getAmdcDatos(data2).subscribe(
+      (responseData) => {
+        console.log(responseData);
+        this.NOMBRE_COMERCIAL = responseData.NOMBRE_COMERCIAL 
+        this.CANTIDAD_DECLARADA = responseData.CANTIDAD_DECLARADA
+
+        //separar por comas los miles y decimales CANTIDAD_DECLARADA y con la moneda Lempiras
+        this.CANTIDAD_DECLARADA = this.CANTIDAD_DECLARADA.toLocaleString('es-HN', {
+          style: 'currency',
+          currency: 'HNL',
+        });
+      },
+      (error) => {
+        console.error('Error: ', error);
+      }
+    );
+
+
+
+
     this.isLoadding = true;
 
     this.apiRTN.getVentaBruta(data).subscribe(
@@ -136,9 +145,10 @@ export class VentabrutaComponent implements OnInit {
       // }
 
       (responseData) => {
-        console.log(responseData);
+        // console.log(responseData);
 
         try {
+
           if (responseData.customError !== undefined) {
             console.log(responseData.customError);
 
@@ -147,10 +157,8 @@ export class VentabrutaComponent implements OnInit {
             this.isLoadding = false;
 
             //abrir el alert
-            
-
           } else if (responseData.data !== undefined) {
-            console.log(responseData.data !== undefined);
+            // console.log(responseData.data !== undefined);
 
             // Guardar datos en LocalStorage
             this.ventasData = responseData;
@@ -205,8 +213,8 @@ export class VentabrutaComponent implements OnInit {
             const data = {
               userId: this.UserId,
               RTN: this.RTNI,
-              nombreEmpresa: 'Empresa XYZ',
-              sumaAMDC: 'L 450,000.05',
+              nombreEmpresa: this.NOMBRE_COMERCIAL,
+              sumaAMDC: this.CANTIDAD_DECLARADA,
               sumaSar: this.TventaBrutas,
               anio: this.Anio,
               usuario: this.User,
@@ -214,7 +222,7 @@ export class VentabrutaComponent implements OnInit {
 
             this.apiRTN.saveSumaVB(data).subscribe(
               (responseData) => {
-                console.log(responseData);
+                // console.log(responseData);
               },
               (error) => {
                 this.errorMessage =
@@ -231,8 +239,8 @@ export class VentabrutaComponent implements OnInit {
             this.sumasVentasBrutas.push({
               id: uniqueId,
               RTN: this.RTNI,
-              nombreEmpresa: 'Empresa XYZ',
-              sumaAMDC: 'L 450,000.05',
+              nombreEmpresa: this.NOMBRE_COMERCIAL,
+              sumaAMDC: this.CANTIDAD_DECLARADA,
               sumaSar: this.TventaBrutas,
               anio: this.Anio,
               usuario: this.User, // Reemplaza 'nombre_de_usuario' con la variable o valor correcto del usuario
@@ -251,8 +259,6 @@ export class VentabrutaComponent implements OnInit {
               this.sumasVentasBrutas
             );
           }
-          {
-          }
         } catch (error) {
           console.log(error);
         }
@@ -268,12 +274,12 @@ export class VentabrutaComponent implements OnInit {
   }
 
   onSelecAnio(even: any) {
-    console.log(even);
+    // console.log(even);
     this.selectedYear = even;
     // si el valor es 1 entonces es el año 2018 y se enviaria desde:201801 y hasta:201812
 
     const yearMappings: { [key: number]: { desde: string; hasta: string } } = {
-      2018: { desde: '201801', hasta: '201812' },
+      // 2018: { desde: '201801', hasta: '201812' },
       2019: { desde: '201901', hasta: '201912' },
       2020: { desde: '202001', hasta: '202012' },
       2021: { desde: '202101', hasta: '202112' },
@@ -294,6 +300,6 @@ export class VentabrutaComponent implements OnInit {
   }
 
   saveSumaVVB() {
-    console.log(this.sumasVentasBrutas);
+    // console.log(this.sumasVentasBrutas);
   }
 }

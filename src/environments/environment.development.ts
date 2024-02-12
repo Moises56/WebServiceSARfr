@@ -10,10 +10,12 @@ export const environment = {
   
   urlSumaVB: `https://api.amdc.hn:9091/api/`,
   urlUser: `https://api.amdc.hn:9091/api/users`,
+  urlAmdcData: `https://api.amdc.hn:9091/api/getAmdcDatos`,
 
   //?Development
   //urLogin: `http://localhost:3001/api/auth`,
   // urlSumaVB: `http://localhost:3001/api`,
   // urlUser: `http://localhost:3001/api/users`,
+    // urlAmdcData: `http://localhost:3001/api/getAmdcDatos`
 
 };

@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment.development';
 import { ResponseData, RTN } from '../interfaces/consRTN.interfaces';
 import { VentasData } from '../interfaces/ventas.interface';
 import { sumaVVB } from '../interfaces/sumaVenta.interfaces';
+import { AmdcData } from '../interfaces/amdcData.interfaces';
 import { errorHandlerInterceptor } from '../interceptors/error-handler.interceptor';
 
 @Injectable({
@@ -26,7 +27,7 @@ export class ApirtnService {
 
   //
   getVentaBruta(data:any): Observable<any>{
-    console.log(data.Rtn, data.PeriodoDesde, data.PeriodoHasta)
+    // console.log(data.Rtn, data.PeriodoDesde, data.PeriodoHasta)
     return this.http.post<any>(`${environment.Ventaurl}`,{
       Rtn: data.Rtn,
       PeriodoDesde: data.PeriodoDesde,
@@ -38,7 +39,7 @@ export class ApirtnService {
 
   //suma de ventas brutas con los siguientes parametros RTN, nombreEmpresa, sumaAMDC, sumaSar, anio, usuario a la rura urlSumVB
   saveSumaVB(data:sumaVVB): Observable<sumaVVB>{
-    console.log(data.RTN, data.nombreEmpresa, data.sumaAMDC, data.sumaSar, data.anio, data.usuario, data.userId)
+    // console.log(data.RTN, data.nombreEmpresa, data.sumaAMDC, data.sumaSar, data.anio, data.usuario, data.userId)
     return this.http.post<sumaVVB>(`${environment.urlSumaVB}/sumaVentaBruta`,{
       // `${environment.urLogin}/signin`
       userId: data.userId,
@@ -67,7 +68,17 @@ export class ApirtnService {
     );
   }
 
- 
+  // obtener todas las sumas de ventas brutas por el
+  getAmdcDatos(data2:any): Observable<any>{
+    return this.http.post<any>(`${environment.urlAmdcData}`,{
+      RTN: data2.RTN,
+      ANIO: data2.ANIO
+    }).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+
 
   errorHandler(error: any) {
     // console.log(error.error.message);
