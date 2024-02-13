@@ -7,15 +7,15 @@ export const environment = {
   Ventaurl: `https://api.amdc.hn:9091/api/ventaBruta`,
 
   urLogin: `https://api.amdc.hn:9091/api/auth`,
+  urlUser: `https://api.amdc.hn:9091/api/users`,
   
   urlSumaVB: `https://api.amdc.hn:9091/api/`,
-  urlUser: `https://api.amdc.hn:9091/api/users`,
   urlAmdcData: `https://api.amdc.hn:9091/api/getAmdcDatos`,
 
   //?Development
-  //urLogin: `http://localhost:3001/api/auth`,
-  // urlSumaVB: `http://localhost:3001/api`,
-  // urlUser: `http://localhost:3001/api/users`,
-    // urlAmdcData: `http://localhost:3001/api/getAmdcDatos`
+  // urLogin: `http://localhost:3000/api/auth`,
+  // urlSumaVB: `http://localhost:3000/api`,
+  // urlUser: `http://localhost:3000/api/users`,
+    // urlAmdcData: `http://localhost:3000/api/getAmdcDatos`
 
 };

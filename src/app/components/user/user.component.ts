@@ -34,6 +34,8 @@ export class UserComponent implements OnInit {
     username: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
+    identidad: new FormControl(''),
+    gerencia: new FormControl(''),
     roles: new FormControl(''),
   });
   submitted = false;
@@ -42,6 +44,8 @@ export class UserComponent implements OnInit {
     username: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
+    identidad: new FormControl(''),
+    gerencia: new FormControl(''),
     roles: new FormControl(''),
   });
 
@@ -62,6 +66,8 @@ export class UserComponent implements OnInit {
         Validators.required,
         Validators.minLength(4),
       ]),
+      identidad: new FormControl('', [Validators.required]),
+      gerencia: new FormControl('', [Validators.required]),
       roles: new FormControl('', [Validators.required]),
     });
 
@@ -83,6 +89,8 @@ export class UserComponent implements OnInit {
             Validators.maxLength(40)
           ]
         ],
+        identidada: ['', [Validators.required]],
+        gerencia: ['', [Validators.required]],
         roles: ['', [Validators.required]],
       },
     );
@@ -99,6 +107,8 @@ export class UserComponent implements OnInit {
             Validators.maxLength(40)
           ]
         ],
+        identidada: ['', [Validators.required]],
+        gerencia: ['', [Validators.required]],
         roles: ['', [Validators.required]],
       },
     );
@@ -137,6 +147,8 @@ export class UserComponent implements OnInit {
       username: this.form.value.username,
       email: this.form.value.email,
       password: this.form.value.password,
+      identidad: this.form.value.identidad,
+      gerencia: this.form.value.gerencia,
       roles: this.form.value.roles,
     };
     console.log(data)
@@ -183,6 +195,8 @@ export class UserComponent implements OnInit {
       username: this.formUpdate.value.username,
       email: this.formUpdate.value.email,
       password: this.formUpdate.value.password,
+      identidad: this.formUpdate.value.identidad,
+      gerencia: this.formUpdate.value.gerencia,
       roles: this.formUpdate.value.roles,
     };
     console.log(data)
@@ -206,11 +220,15 @@ export class Users {
   username: string;
   email: string;
   password: string;
+  identidad: string;
+  gerencia: string;
   roles: string;
   constructor() {
     this.username = '';
     this.email = '';
     this.password = '';
+    this.identidad = '';
+    this.gerencia = '';
     this.roles = '';
   }
 }

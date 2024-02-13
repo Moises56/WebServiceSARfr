@@ -22,7 +22,6 @@ export const routes: Routes = [
     {path: 'misconsultas', title:'misconsultas', component: MisconsultasComponent , canMatch: [authGuard]},
     {path: 'bitacora', title:'dashboard', component: BitacoraComponent , canMatch: [authGuard, rolGuard]},
     {path: 'not-authorized', title:'not-authorized', component: NotAuthorizedComponent},
-
     
     { path: '**', loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent)}
 ];
