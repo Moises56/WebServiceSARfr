@@ -16,9 +16,9 @@ export class ApirtnService {
 
   constructor(private http: HttpClient) { }
 
-  getconsultaRTN(data:any): Observable<ResponseData>{
+  getconsultaRTN(data:any): Observable<any>{
     console.log(data.rtn)
-    return this.http.post<ResponseData>(`${environment.RTNurl}`,{
+    return this.http.post<any>(`${environment.RTNurl}`,{
       rtn: data.rtn
     }).pipe(
       catchError(this.errorHandler)

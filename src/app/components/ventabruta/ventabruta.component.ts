@@ -55,6 +55,7 @@ export class VentabrutaComponent implements OnInit {
   public errorMessages!: string;
   errorMessage: string = ''; // Variable para almacenar el mensaje de error
   errorMessage1: string = ''; // Variable para almacenar el mensaje de error
+  errorMessage2: string = ''; // Variable para almacenar el mensaje de error
 
   responseData!: ResponseData;
 
@@ -74,20 +75,12 @@ export class VentabrutaComponent implements OnInit {
 
 
 
-  ngOnInit(): void {
-    // this.ConsultatRTN$ = this.apiRTN.getconsultaRTN().pipe(
-    //      catchError((error: string) => {
-    //        this.errorMessages = error;
-    //        return EMPTY;
-    //      }))
-    // this.sendData()
-  }
+  ngOnInit(): void {}
 
   close() {
     //limpiar la variable de error errorMessage1 
     this.errorMessage1 = '';
-
-    
+    this.errorMessage = '';
   }
 
 
@@ -116,12 +109,13 @@ export class VentabrutaComponent implements OnInit {
       RTN: this.formRtn.value.Rtn,
       ANIO:  this.Anio,
     }
-    console.log(data2);
+    // console.log(data2);
     this.apiRTN.getAmdcDatos(data2).subscribe(
       (responseData) => {
-        console.log(responseData);
-        this.NOMBRE_COMERCIAL = responseData.NOMBRE_COMERCIAL 
-        this.CANTIDAD_DECLARADA = responseData.CANTIDAD_DECLARADA
+        // console.log(responseData.message)
+        this.errorMessage2 = responseData.message;
+        this.NOMBRE_COMERCIAL = responseData.NOMBRE_COMERCIAL || responseData.message 
+        this.CANTIDAD_DECLARADA = responseData.CANTIDAD_DECLARADA || 0
 
         //separar por comas los miles y decimales CANTIDAD_DECLARADA y con la moneda Lempiras
         this.CANTIDAD_DECLARADA = this.CANTIDAD_DECLARADA.toLocaleString('es-HN', {
@@ -140,27 +134,18 @@ export class VentabrutaComponent implements OnInit {
     this.isLoadding = true;
 
     this.apiRTN.getVentaBruta(data).subscribe(
-      //   (responseData: { customError: CustomError }) => {
-      //     console.log(responseData.customError.message);
-      // }
 
       (responseData) => {
-        // console.log(responseData);
-
         try {
 
           if (responseData.customError !== undefined) {
-            console.log(responseData.customError);
 
             this.errorMessage1 = responseData.customError.message;
-            console.log(this.errorMessage1);
             this.isLoadding = false;
 
             //abrir el alert
           } else if (responseData.data !== undefined) {
-            // console.log(responseData.data !== undefined);
 
-            // Guardar datos en LocalStorage
             this.ventasData = responseData;
             this.regionVisible = 'data';
             this.isLoadding = false;
@@ -173,8 +158,6 @@ export class VentabrutaComponent implements OnInit {
             for (const key in ventasBrutas) {
               if (ventasBrutas.hasOwnProperty(key)) {
                 const value = ventasBrutas[key];
-                // console.log(`${key}: ${value}`);
-
                 // Verificar si el valor es numérico antes de sumarlo
                 if (typeof value === 'number') {
                   totalVentas += value;
@@ -213,8 +196,8 @@ export class VentabrutaComponent implements OnInit {
             const data = {
               userId: this.UserId,
               RTN: this.RTNI,
-              nombreEmpresa: this.NOMBRE_COMERCIAL,
-              sumaAMDC: this.CANTIDAD_DECLARADA,
+              nombreEmpresa: this.NOMBRE_COMERCIAL || this.errorMessage2,
+              sumaAMDC: this.CANTIDAD_DECLARADA || 0,
               sumaSar: this.TventaBrutas,
               anio: this.Anio,
               usuario: this.User,
@@ -226,21 +209,20 @@ export class VentabrutaComponent implements OnInit {
               },
               (error) => {
                 this.errorMessage =
-                  error?.error?.message || 'Error desconocido';
+                error?.error?.message || 'Error desconocido';
                 this.regionVisible = 'error';
+
                 this.isLoadding = false;
-                console.log(this.errorMessage);
                 console.error('Error de RTN:', error);
               }
             );
 
             // Agregar la suma al arreglo con el formato adecuado
-            // this.sumasVentasBrutas.push({ id: uniqueId, suma: this.TventaBrutas, anio: this.Anio});
             this.sumasVentasBrutas.push({
               id: uniqueId,
               RTN: this.RTNI,
-              nombreEmpresa: this.NOMBRE_COMERCIAL,
-              sumaAMDC: this.CANTIDAD_DECLARADA,
+              nombreEmpresa: this.NOMBRE_COMERCIAL || this.errorMessage2,
+              sumaAMDC: this.CANTIDAD_DECLARADA || 0,
               sumaSar: this.TventaBrutas,
               anio: this.Anio,
               usuario: this.User, // Reemplaza 'nombre_de_usuario' con la variable o valor correcto del usuario
@@ -254,10 +236,6 @@ export class VentabrutaComponent implements OnInit {
 
             let sumasVentasBrutasLS = localStorage.getItem('sumasVentasBrutas');
             this.sumasVentasBrutas = JSON.parse(sumasVentasBrutasLS || '[]');
-            console.log(
-              'Datos de sumasVentasBrutas descargados exitosamente',
-              this.sumasVentasBrutas
-            );
           }
         } catch (error) {
           console.log(error);
@@ -265,9 +243,9 @@ export class VentabrutaComponent implements OnInit {
       },
       (error) => {
         this.errorMessage = error?.error?.message || 'Error desconocido';
-        this.regionVisible = 'error';
+        //this.regionVisible = 'error';
+        this.regionVisible = 'data';
         this.isLoadding = false;
-        console.log(this.errorMessage);
         console.error('Error: ', error);
       }
     );

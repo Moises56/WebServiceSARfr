@@ -87,15 +87,25 @@
 }
 
 <div class="container">
+  
+  @if(errorMessage){
+
+    <ngb-alert id="uno" (closed)="close()" type="danger">
+      {{errorMessage}}
+    </ngb-alert>
+    }
+
   <div class="row">
 
-    <div [ngClass]="{'visible':regionVisible == 'error', 'no-visible':regionVisible != 'error'}">
-      @if (errorMessage) {
-        <div class="alert alert-danger" role="alert">
-          {{errorMessage}}
-        </div>
+    <!-- <div [ngClass]="{'visible':regionVisible == 'error', 'no-visible':regionVisible != 'error'}">
+
+      @if(errorMessage){
+
+      <ngb-alert id="uno" (closed)="close()" type="danger">
+        {{errorMessage}}
+      </ngb-alert>
       }
-    </div>
+    </div> -->
 
     <div [ngClass]="{'visible':regionVisible == 'data', 'no-visible':regionVisible != 'data'}">
       @if(ventasData){
@@ -126,127 +136,136 @@
             }
           </tbody>
         </table>
-      <!-- </div> -->
+        <!-- </div> -->
 
-      <!-- agregar boton para ver la consulta  -->
-      <!-- <div class="text-center">
+        <!-- agregar boton para ver la consulta  -->
+        <!-- <div class="text-center">
                 <button type="button" class="btn btn-success w-50" (click)="saveConsulta()">
                   Guardar Consulta
                 </button>
               </div> -->
 
-      <div [ngClass]="{'visible':regionVisible == 'verInfoSar', 'no-visible':regionVisible != 'verInfoSar'}">
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>EXPORTACIONES (FUERA REGION
-              CENTROAMERICANA) </b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.exportacionesFCA }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>EXPORTACIONES (FUERA REGION CENTROAMERICANA) AL
-              15% </b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.exportacionesFCA15 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>EXPORTACIONES (FUERA REGION CENTROAMERICANA) AL
-              18%  exportacionesFCA18</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.exportacionesFCA18 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>EXPORTACIONES (REGION CENTROAMERICANA)</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.exportacionesCA }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>EXPORTACIONES (REGION CENTROAMERICANA) AL
-              15%</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.exportacionesCA15 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>EXPORTACIONES (REGION CENTROAMERICANA) AL
-              18%</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.exportacionesCA18 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>TRANSFERENCIA DE SERVICIOS FYDUCA AL 15%</b>
-          </li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.transferenciaServiciosFyduca15 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>TRANSFERENCIA DE SERVICIOS FYDUCA AL 18%</b>
-          </li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.transferenciaServiciosFyduca18 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>TRANSFERENCIAS DE BIENES FYDUCA AL 15%</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.transferenciaBienesFyduca15 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>TRANSFERENCIAS DE BIENES FYDUCA AL 18%</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.transferenciaBienesFyduca18 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXENTAS EN EL MERCADO INTERNO (18%)</b>
-          </li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExentasMI18 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXENTAS EN MERCADO INTERNO</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExentasMI }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXENTAS EN MERCADO INTERNO AL 15%</b>
-          </li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExentasMI15 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXENTAS POR EXPORTACIONES</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExentasExportaciones }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXENTAS POR EXPORTACIONES (FUERA REGION
-              CENTROAMERICANA)</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExentasExportacionesFCA }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXENTAS POR EXPORTACIONES (REGION
-              CENTROAMERICANA)</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExentasExportacionesCA }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>Ventas Exoneradas con OCE AL 15%</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExoneradasOCE15 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXONERADAS CON OCE AL 18%</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExoneradasOCE18 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXONERADAS PERSONA NATURAL (DECRETO
-              119-2016)</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExoneradasPN }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS NETAS MERCADO INTERNO GRAVADAS AL
-              12% </b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasNetasMI12 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS NETAS MERCADO INTERNO GRAVADAS AL
-              15%</b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasNetasMI15 }}</li>
-        </ul>
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS NETAS MERCADO INTERNO GRAVADAS AL
-              18% </b></li>
-          <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasNetasMI18 }}</li>
-        </ul>
-      </div>
+        <div [ngClass]="{'visible':regionVisible == 'verInfoSar', 'no-visible':regionVisible != 'verInfoSar'}">
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>EXPORTACIONES (FUERA REGION
+                CENTROAMERICANA) </b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.exportacionesFCA }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>EXPORTACIONES (FUERA REGION CENTROAMERICANA)
+                AL
+                15% </b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.exportacionesFCA15 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>EXPORTACIONES (FUERA REGION CENTROAMERICANA)
+                AL
+                18%  exportacionesFCA18</b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.exportacionesFCA18 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>EXPORTACIONES (REGION CENTROAMERICANA)</b>
+            </li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.exportacionesCA }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>EXPORTACIONES (REGION CENTROAMERICANA) AL
+                15%</b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.exportacionesCA15 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>EXPORTACIONES (REGION CENTROAMERICANA) AL
+                18%</b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.exportacionesCA18 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>TRANSFERENCIA DE SERVICIOS FYDUCA AL 15%</b>
+            </li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.transferenciaServiciosFyduca15 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>TRANSFERENCIA DE SERVICIOS FYDUCA AL 18%</b>
+            </li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.transferenciaServiciosFyduca18 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>TRANSFERENCIAS DE BIENES FYDUCA AL 15%</b>
+            </li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.transferenciaBienesFyduca15 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>TRANSFERENCIAS DE BIENES FYDUCA AL 18%</b>
+            </li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.transferenciaBienesFyduca18 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXENTAS EN EL MERCADO INTERNO
+                (18%)</b>
+            </li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExentasMI18 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXENTAS EN MERCADO INTERNO</b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExentasMI }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXENTAS EN MERCADO INTERNO AL 15%</b>
+            </li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExentasMI15 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXENTAS POR EXPORTACIONES</b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExentasExportaciones }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXENTAS POR EXPORTACIONES (FUERA
+                REGION
+                CENTROAMERICANA)</b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExentasExportacionesFCA }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXENTAS POR EXPORTACIONES (REGION
+                CENTROAMERICANA)</b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExentasExportacionesCA }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>Ventas Exoneradas con OCE AL 15%</b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExoneradasOCE15 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXONERADAS CON OCE AL 18%</b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExoneradasOCE18 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS EXONERADAS PERSONA NATURAL (DECRETO
+                119-2016)</b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasExoneradasPN }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS NETAS MERCADO INTERNO GRAVADAS AL
+                12% </b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasNetasMI12 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS NETAS MERCADO INTERNO GRAVADAS AL
+                15%</b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasNetasMI15 }}</li>
+          </ul>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list-group-item-secondary apo-p"><b>VENTAS NETAS MERCADO INTERNO GRAVADAS AL
+                18% </b></li>
+            <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasNetasMI18 }}</li>
+          </ul>
+        </div>
 
+      </div>
+      }
     </div>
-    }
+
+
+
   </div>
 
-
-
-</div>
+ 
 
 </div>

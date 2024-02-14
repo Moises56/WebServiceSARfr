@@ -6,11 +6,12 @@ import { ApirtnService } from '../../services/apirtn.service';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-consulta-rtn',
   standalone: true,
-  imports: [AsyncPipe,RouterLink,CommonModule, HttpClientModule,ReactiveFormsModule],
+  imports: [AsyncPipe,RouterLink,CommonModule, HttpClientModule,ReactiveFormsModule,NgbAlertModule],
   templateUrl: './consulta-rtn.component.html',
   styleUrl: './consulta-rtn.component.css'
 })
@@ -20,6 +21,7 @@ export class ConsultaRTNComponent implements OnInit {
   visibleE:boolean = false;
 
   regionVisible: String = '';
+  errorMessage1: string = ''; // Variable para almacenar el mensaje de error
 
   public ConsultatRTN$!: Observable<ResponseData>;
   public errorMessage!: string;
@@ -36,14 +38,11 @@ export class ConsultaRTNComponent implements OnInit {
   });
 
 
-  ngOnInit(): void {
-    // this.ConsultatRTN$ = this.apiRTN.getconsultaRTN().pipe(
-    //      catchError((error: string) => {
-    //        this.errorMessage = error;
-    //        return EMPTY;
-    //      }))
+  ngOnInit(): void {}
 
-   // this.sendData()
+  close() {
+    this.errorMessage1 = '';
+    this.errorMessage = '';
   }
 
   sendData(){
@@ -53,25 +52,25 @@ export class ConsultaRTNComponent implements OnInit {
     const data = {
       rtn: this.formRtn.value.rtn
     }
-    console.log(data)
+    // console.log(data)
     this.isLoadding = true;
 
     this.apiRTN.getconsultaRTN(data).subscribe(
       (data) => {
         this.responseData = data;
         this.regionVisible = 'data';
-        // this.visibleD = true;
-        // this.visibleE = false;
         this.isLoadding = false;
-        console.log('Data loaded successfully', this.responseData.message);
+
+        if (data.customError !== undefined) {
+
+          this.errorMessage1 = data.customError.message;
+          this.isLoadding = false;
+        }
       },
       error => {
         this.errorMessage = error?.error?.message || 'Error desconocido';
-        this.regionVisible = 'error';
+        this.regionVisible = 'data';
         this.isLoadding = false;
-        // this.visibleE = true;
-        // this.visibleD = false;
-        console.log(this.errorMessage);
         console.error('Error de RTN:', error);
       }
       );

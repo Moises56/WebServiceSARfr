@@ -1,6 +1,17 @@
 <div class="container text-center">
   <div class="row justify-content-center align-items-center" style="height: 55vh;">
     <div class="col-md-6">
+
+      @if(errorMessage1){
+        <!-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Error: </strong>{{errorMessage1}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"  (closed)="close()"></button>
+              </div> -->
+  
+        <ngb-alert id="uno" (closed)="close()" type="danger">
+          {{errorMessage1}}
+        </ngb-alert>
+        }
       <!-- <h4 class="text-center mb-4">Consulta RTN</h4> -->
       <img src="/assets/logos/CONSULTARTN.png" alt="CONSULTA RTN" class="img-fluid mx-auto mb-3" style="width: 50%;padding-top: 15px;" />
 
@@ -46,6 +57,13 @@
 
 
 <div class="container">
+
+  @if(errorMessage){
+    <ngb-alert id="uno" (closed)="close()" type="danger">
+      {{errorMessage}}
+    </ngb-alert>
+    }
+    
   <div class="row">
 
     <!-- mostrar elemento -->
@@ -152,13 +170,19 @@
     </div>
 
       <div [ngClass]="{'visible':regionVisible == 'error', 'no-visible':regionVisible != 'error'}">
-        @if (errorMessage) {
+       
+        <!-- @if (errorMessage) {
         <div class="alert alert-danger" role="alert">
           {{errorMessage}}
         </div>
-        }
+        } -->
+
+      
+
       </div>
 
 
   <div>
+
+   
 <div>
