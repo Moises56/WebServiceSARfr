@@ -32,15 +32,6 @@
                       aria-describedby="basic-addon2" formControlName="Rtn">
                   </div>
 
-                  <!-- <div class="input-group mb-3">
-                                        <span class="input-group-text">PeriodoDesde</span>
-                                        <input type="text" class="form-control" placeholder="202201" aria-label="202201" formControlName="PeriodoDesde">
-                                        <input type="text" class="form-control" placeholder="202201" aria-label="202201">
-                                        <span class="input-group-text">Periodo Hasta</span>
-                                        <input type="text" class="form-control" placeholder="202203" aria-label="202203" formControlName="PeriodoHasta">
-                                        <input type="text" class="form-control" placeholder="202203" aria-label="202203">
-                                    </div> -->
-
                   <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupSelect01"><b>AÑO</b></label>
                     <!-- <select class="form-select" id="inputGroupSelect01" formControlName="Anio" (change)="onSelecAnio($event)"> -->
@@ -59,7 +50,9 @@
                 </div>
               </div>
             </div>
-            <button class="btn btn-success w-100" (click)="saveSumaVVB()"><b>Buscar</b></button>
+            <!-- <button class="btn btn-success w-100" (click)="saveSumaVVB()"><b>Buscar</b></button> -->
+            <button class="button-85" role="button" (click)="saveSumaVVB()">BUSCAR</button>
+
           </div>
         </div>
       </form>
@@ -67,49 +60,63 @@
   </div>
 </div>
 
+<!-- <div class="text-center">
+  <button type="button" class="btn btn-success w-50" (click)="genPdf()">
+    Generar PDF
+  </button>
+</div> -->
+
 @if (isLoadding) {
-<!-- <div class="container">
-      <div class="row justify-content-center align-items-center">
-        <div class="d-flex justify-content-center">
-          <div class="spinner-border text-info" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+    <div class="d-flex justify-content-center">
+
+      <!-- <div class="loader">
+            <div class="outer"></div>
+            <div class="middle"></div>
+            <div class="inner"></div>
+          </div> -->
+
+
+      <div class="progress-bar-container">
+        <div class="progress-bar stripes animated reverse slower">
+          <span class="progress-bar-inner" [style.width.%]="progress">{{ progress }}%</span>
         </div>
       </div>
-    </div> -->
 
-<div class="loader">
-  <div class="outer"></div>
-  <div class="middle"></div>
-  <div class="inner"></div>
+
+
+
+    </div>
+  </div>
 </div>
 
 }
 
 <div class="container">
-  
+
+
   @if(errorMessage){
 
-    <ngb-alert id="uno" (closed)="close()" type="danger">
-      {{errorMessage}}
-    </ngb-alert>
-    }
+  <ngb-alert id="uno" (closed)="close()" type="danger">
+    {{errorMessage}}
+  </ngb-alert>
+  }
 
   <div class="row">
 
-    <!-- <div [ngClass]="{'visible':regionVisible == 'error', 'no-visible':regionVisible != 'error'}">
-
-      @if(errorMessage){
-
-      <ngb-alert id="uno" (closed)="close()" type="danger">
-        {{errorMessage}}
-      </ngb-alert>
-      }
-    </div> -->
-
     <div [ngClass]="{'visible':regionVisible == 'data', 'no-visible':regionVisible != 'data'}">
       @if(ventasData){
-      <div class="col-12 table-responsive table-responsive-sm">
+      <div class="col-12 table-responsive table-responsive-sm" id="ventasBrutas">
+        <!-- <div class="banner"> -->
+          <img src="/assets/logos/baner10.png" alt="CONSULTA VENTAS BRUTAS" class="img-fluid mx-auto mb-3"/>
+        <!-- </div> -->
+
+        <div class="text-left" style="margin-left: 82%; transform: translateY(-45px);">
+          <!-- <p class="text-muted ">Fecha: {{ fecha | date: 'dd/MM/yyyy' }} Hora: {{ fecha | date: 'HH:mm' }}</p> -->
+          <p class="text-muted "><b> Fecha: {{ fechaActual }}</b></p>
+        </div>
+
         <table class="table table-striped table-hover text-center">
           <thead style="border: 1px solid #5ccedf;">
             <tr>
@@ -138,12 +145,26 @@
         </table>
         <!-- </div> -->
 
+        <div class="text-center">
+          <!-- <button type="button" class="btn btn-success w-50" (click)="genPdf()">
+            Generar PDF
+          </button> -->
+
+
+          <button type="button" class="button-89" role="button" (click)="genPdf()">
+            <span class="icon"></span>
+            GENERAR PDF
+          </button>
+
+
+        </div>
+
         <!-- agregar boton para ver la consulta  -->
         <!-- <div class="text-center">
-                <button type="button" class="btn btn-success w-50" (click)="saveConsulta()">
-                  Guardar Consulta
-                </button>
-              </div> -->
+          <button type="button" class="btn btn-success w-50" (click)="genPdf()">
+            Generar PDF
+          </button>
+        </div> -->
 
         <div [ngClass]="{'visible':regionVisible == 'verInfoSar', 'no-visible':regionVisible != 'verInfoSar'}">
           <ul class="list-group list-group-horizontal">
@@ -266,6 +287,6 @@
 
   </div>
 
- 
+
 
 </div>

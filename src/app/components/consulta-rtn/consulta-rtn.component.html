@@ -30,7 +30,9 @@
                 </div>
               </div>
             </div>
-            <button class="btn btn-success w-100"><b>Buscar RTN</b></button>
+            <!-- <button class="btn btn-success w-100"><b>Buscar RTN</b></button> -->
+            <button class="button-85" role="button">BUSCAR</button>
+
           </div>
         </div>
       </form>
@@ -42,18 +44,59 @@
 @if (isLoadding) {
 <div class="container">
   <div class="row justify-content-center align-items-center">
-    <div class="d-flex justify-content-center">      
+    <div class="d-flex justify-content-center">    
+<!-- 
       <div class="loader">
         <div class="outer"></div>
         <div class="middle"></div>
         <div class="inner"></div>
+      </div> -->
+
+      <div class="progress-bar-container">
+        <div class="progress-bar stripes animated reverse slower">
+          <span class="progress-bar-inner" [style.width.%]="progress">{{ progress }}%</span>
+        </div>
       </div>
+
     </div>
   </div>
 </div>
 
 
+
+<!-- <ngb-progressbar class="mb-3" type="success" textType="white" [value]="25" [showValue]="true" /> -->
+<!-- <ngb-progressbar class="mb-3" type="dark" textType="white" [value]="50" [showValue]="true" /> -->
+<!-- <ngb-progressbar class="mb-3" type="light" textType="success" [value]="75" [showValue]="true" /> -->
+
+<!-- <ngb-progressbar class="mb-3" type="success" textType="white" [value]="progress" [showValue]="true"></ngb-progressbar>
+
+
+<div class="progress">
+  <div class="progress-bar" role="progressbar" [style.width.%]="progress">{{ progress }}%</div>
+</div> -->
+
+<!-- <div class="progress-bar-container">
+  <div class="progress-bar stripes animated reverse slower">
+    <span class="progress-bar-inner" [style.width.%]="progress">{{ progress }}%</span>
+  </div>
+</div> -->
+<!-- <div> -->
+<!-- 
+  <div class="progress-bar-container">
+    <div class="progress-bar stripes animated reverse slower" [style.width.%]="progress">
+      <span class="progress-bar-inner"></span>
+    </div>
+  </div>
+   -->
+
+  <!-- <ngb-progressbar class="mb-3" type="success" textType="white" [value]="progress" [showValue]="true"></ngb-progressbar> -->
+
+<!-- </div> -->
+
+
+
 }
+
 
 
 <div class="container">
@@ -63,6 +106,7 @@
       {{errorMessage}}
     </ngb-alert>
     }
+
     
   <div class="row">
 
@@ -71,6 +115,26 @@
     <div [ngClass]="{'visible':regionVisible == 'data', 'no-visible':regionVisible != 'data'}">
       <div class="col-12">
         @if(responseData){
+
+          <!-- <div class="row g-2">
+            <div class="col-6">
+              <div class="p-3 border bg-light">RTN: <h4><span class="bg-secondary">{{ responseData.data.obligadoTributario.rtn }}</span></h4></div>
+            </div>
+            <div class="col-6">
+              <div class="p-3 border bg-light">Nombre: <h4> <span class="bg-secondary">{{ responseData.data.obligadoTributario.nombre }} {{ responseData.data.obligadoTributario.segundoNombre }}</span> </h4></div>
+            </div>
+            <div class="col-6">
+              <div class="p-3 border bg-light">Apellidos: <h4><span class="bg-secondary">{{ responseData.data.obligadoTributario.primerApellido }} {{ responseData.data.obligadoTributario.segundoApellido }}</span></h4> </div>
+            </div>
+            <div class="col-6">
+              <div class="p-3 border bg-light">Nombre Comercial: <h4><span class="bg-secondary">{{ responseData.data.obligadoTributario.nombreComercial }}</span> </h4></div>
+            </div>
+          </div> -->
+
+
+
+
+
 
         <ul class="list-group list-group-horizontal">
           <li class="list-group-item list-group-item-secondary apo-p"><b>RTN</b></li>
@@ -165,7 +229,7 @@
           <li class="list-group-item list-group-item-secondary apo-p"><b>Fecha de Inicio de Actividad</b></li>
           <li class="list-group-item apo-p">{{ responseData.data.obligadoTributario.fechaInicioActividad }}</li>
         </ul>
-      }
+        }
       </div>
     </div>
 

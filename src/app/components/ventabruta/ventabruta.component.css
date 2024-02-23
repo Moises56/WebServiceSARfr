@@ -1,66 +1,250 @@
 .btn-success{
-    background-color: #5ccedf !important;
+  background-color: #5ccedf !important;
 }
 
 .btn-success:hover{
-    background-color: #cdd5d6 !important;
-    color: black !important;
+  background-color: #cdd5d6 !important;
+  color: black !important;
 }
 
 .visible{
-  display: block;
+display: block;
 }
 
 .no-visible{
-  display: none;
+display: none;
 }
 
 .fila-solicitud{
-  cursor: pointer;
+cursor: pointer;
 }
 
 .loader {
-  position: relative;
+position: relative;
 }
 
 .outer,
 .middle,
 .inner {
-  border: 3px solid transparent;
-  border-top-color: #3cefff;
-  border-right-color: #3cefff;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
+border: 3px solid transparent;
+border-top-color: #3cefff;
+border-right-color: #3cefff;
+border-radius: 50%;
+position: absolute;
+top: 50%;
+left: 50%;
 }
 
 .outer {
-  width: 3.5em;
-  height: 3.5em;
-  margin-left: -1.75em;
-  margin-top: -1.75em;
-  animation: spin 2s linear infinite;
+width: 3.5em;
+height: 3.5em;
+margin-left: -1.75em;
+margin-top: -1.75em;
+animation: spin 2s linear infinite;
 }
 
 .middle {
-  width: 2.1em;
-  height: 2.1em;
-  margin-left: -1.05em;
-  margin-top: -1.05em;
-  animation: spin 1.75s linear reverse infinite;
+width: 2.1em;
+height: 2.1em;
+margin-left: -1.05em;
+margin-top: -1.05em;
+animation: spin 1.75s linear reverse infinite;
 }
 
 .inner {
-  width: 0.8em;
-  height: 0.8em;
-  margin-left: -0.4em;
-  margin-top: -0.4em;
-  animation: spin 1.5s linear infinite;
+width: 0.8em;
+height: 0.8em;
+margin-left: -0.4em;
+margin-top: -0.4em;
+animation: spin 1.5s linear infinite;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+to {
+  transform: rotate(360deg);
+}
+}
+
+
+
+.button-89 {
+--b: 3px;   /* border thickness */
+--s: .45em; /* size of the corner */
+--color: #373B44;
+
+padding: calc(.5em + var(--s)) calc(.9em + var(--s));
+color: var(--color);
+--_p: var(--s);
+background:
+  conic-gradient(from 90deg at var(--b) var(--b),#0000 90deg,var(--color) 0)
+  var(--_p) var(--_p)/calc(100% - var(--b) - 2*var(--_p)) calc(100% - var(--b) - 2*var(--_p));
+transition: .3s linear, color 0s, background-color 0s;
+outline: var(--b) solid #0000;
+outline-offset: .6em;
+font-size: 16px;
+
+border: 0;
+
+user-select: none;
+-webkit-user-select: none;
+touch-action: manipulation;
+}
+
+.button-89 .icon {
+display: inline-block;
+width: 1em;
+height: 1em;
+margin-right: 0.5em; /* Espacio entre el icono y el texto */
+background-image: url('/assets/logos/pdf.png'); /* Ruta al icono */
+background-size: cover;
+}
+
+.button-89:hover,
+.button-89:focus-visible{
+--_p: 0px;
+outline-color: var(--color);
+outline-offset: .05em;
+}
+
+.button-89:active {
+background: var(--color);
+color: #fff;
+}
+
+
+/* BOTON BUSCAR */
+/* CSS */
+.button-85 {
+padding: 0.6em 2em;
+border: none;
+outline: none;
+color: #0fa6bd;
+background: #CED3D5;
+cursor: pointer;
+position: relative;
+z-index: 0;
+border-radius: 10px;
+user-select: none;
+-webkit-user-select: none;
+touch-action: manipulation;
+font-weight: bold;
+}
+
+.button-85:before {
+content: "";
+background: linear-gradient(
+  45deg,
+  #408f9b,
+  #000,
+  #5D6263, 
+  #CED3D5, 
+  #000,
+  #5CCEDF
+);
+position: absolute;
+top: -2px;
+left: -2px;
+background-size: 400%;
+z-index: -1;
+filter: blur(5px);
+-webkit-filter: blur(5px);
+width: calc(100% + 4px);
+height: calc(100% + 4px);
+animation: glowing-button-85 20s linear infinite;
+transition: opacity 0.3s ease-in-out;
+border-radius: 10px;
+}
+
+@keyframes glowing-button-85 {
+0% {
+  background-position: 0 0;
+}
+50% {
+  background-position: 400% 0;
+}
+100% {
+  background-position: 0 0;
+}
+}
+
+.button-85:after {
+z-index: -1;
+content: "";
+position: absolute;
+width: 100%;
+height: 100%;
+background: #CED3D5;
+left: 0;
+top: 0;
+border-radius: 10px;
+}
+
+
+/* barra */
+
+@keyframes animate-stripes {
+0% {
+  background-position: 0 0;
+}
+100% {
+  background-position: 60px 0;
+}
+}
+@keyframes auto-progress {
+0% {
+  width: 0%;
+}
+100% {
+  width: 100%;
+}
+}
+.progress-bar {
+background-color: #1a1a1a;
+height: 45px;
+width: 450px;
+margin: 50px auto;
+border-radius: 5px;
+box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+}
+
+.stripes {
+background-size: 30px 30px;
+background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+
+.stripes.animated {
+animation: animate-stripes 120s linear infinite;
+-webkit-animation: animate-stripes 120s linear infinite;
+}
+
+.stripes.animated.slower {
+/* animation-duration: 1.25s; que dure 5 minutos */
+animation-duration: 120s;
+}
+
+.stripes.reverse {
+animation-direction: reverse;
+}
+
+.progress-bar-inner {
+display: block;
+height: 45px;
+width: 0%;
+background-color: #5CCEDF;
+border-radius: 3px;
+box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+position: relative;
+animation: auto-progress 120s infinite linear;
+-webkit-animation: auto-progress 120s infinite linear;
+}
+
+/* Banner */
+.banner {
+  width: 100%;
+  overflow: hidden;
+}
+
+.banner img {
+  width: 100%;
+  display: block;
 }

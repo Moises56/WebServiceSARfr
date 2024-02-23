@@ -11,6 +11,8 @@ import { sumaVVB } from '../../interfaces/sumaVenta.interfaces';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorAlertComponent } from '../error-alert/error-alert.component';
 import { AmdcData } from '../../interfaces/amdcData.interfaces';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 interface Alert {
   type: string;
@@ -28,6 +30,7 @@ interface Alert {
     ReactiveFormsModule,
     NgbAlertModule,
     ErrorAlertComponent,
+    
   ],
   templateUrl: './ventabruta.component.html',
   styleUrl: './ventabruta.component.css',
@@ -64,6 +67,12 @@ export class VentabrutaComponent implements OnInit {
   mostrarMensajeDeError: boolean = false;
   mensajeDeError: string = 'Este es un mensaje de error.';
 
+  progress = 0;
+
+    // mostrar fecha y hora
+    fecha = new Date();
+    fechaActual: string = '';
+  
   constructor(private apiRTN: ApirtnService) {}
 
   formRtn = new FormGroup({
@@ -83,6 +92,7 @@ export class VentabrutaComponent implements OnInit {
     this.errorMessage = '';
   }
 
+  
 
   mostrarError() {
     this.mostrarMensajeDeError = true;
@@ -92,10 +102,17 @@ export class VentabrutaComponent implements OnInit {
   }
 
   sendData() {
+    this.saveSumaVVB();
+
     // recuperar el año seleccionado en la localstorage
     this.Year = localStorage.getItem('Year');
     this.RTNI = this.formRtn.value.Rtn;
     this.Anio = this.formRtn.value.Anio;
+
+    // mostrar la fecha y hora actual
+    // this.fecha = new Date();
+    this.fechaActual = this.fecha.getDate() + '/' + (this.fecha.getMonth() + 1) + '/' + this.fecha.getFullYear() + ' ' + this.fecha.getHours() + ':' + this.fecha.getMinutes();
+  
 
     this.onSelecAnio(this.Anio);
 
@@ -109,6 +126,32 @@ export class VentabrutaComponent implements OnInit {
       RTN: this.formRtn.value.Rtn,
       ANIO:  this.Anio,
     }
+
+    this.progress = 0; // reiniciar el progreso al comenzar una nueva solicitud
+
+    // Calcular el progreso de la barra simulando una espera
+    const startTime = Date.now(); // tiempo de inicio de la solicitud
+
+    // Iniciar el temporizador para actualizar el progreso
+    const progressInterval = setInterval(() => {
+      const currentTime = Date.now();
+      const elapsedTime = currentTime - startTime;
+      const estimatedProgress = Math.min((elapsedTime / 300000 ) * 100, 100); // 3000 es un tiempo estimado de respuesta máximo
+      
+      this.progress = estimatedProgress;
+      //redondear el progreso
+      
+
+      // Detener el temporizador si el progreso alcanza el 100% o si se establece en 0 al finalizar la suscripción
+      if (this.progress >= 100 || this.progress === 0) {
+        clearInterval(progressInterval);
+      }
+    }, 1000); // Intervalo de actualización del progreso
+
+
+
+
+
     // console.log(data2);
     this.apiRTN.getAmdcDatos(data2).subscribe(
       (responseData) => {
@@ -142,6 +185,8 @@ export class VentabrutaComponent implements OnInit {
 
             this.errorMessage1 = responseData.customError.message;
             this.isLoadding = false;
+             // Detener el temporizador y ocultar la barra de progreso
+            clearInterval(progressInterval);
 
             //abrir el alert
           } else if (responseData.data !== undefined) {
@@ -154,6 +199,8 @@ export class VentabrutaComponent implements OnInit {
             // Calcular suma del volumen de ventas
             let totalVentas = 0;
             const ventasBrutas = responseData.data.ventasBrutas;
+             // Detener el temporizador y ocultar la barra de progreso
+            clearInterval(progressInterval);
 
             for (const key in ventasBrutas) {
               if (ventasBrutas.hasOwnProperty(key)) {
@@ -242,11 +289,13 @@ export class VentabrutaComponent implements OnInit {
         }
       },
       (error) => {
-        this.errorMessage = error?.error?.message || 'Error desconocido';
+        this.errorMessage = 'Lo sentimos, se produjo un error al procesar tu solicitud en los servicios del SAR. Por favor, inténtalo de nuevo.';
         //this.regionVisible = 'error';
         this.regionVisible = 'data';
         this.isLoadding = false;
         console.error('Error: ', error);
+         // Detener el temporizador y ocultar la barra de progreso
+         clearInterval(progressInterval);
       }
     );
   }
@@ -279,5 +328,30 @@ export class VentabrutaComponent implements OnInit {
 
   saveSumaVVB() {
     // console.log(this.sumasVentasBrutas);
+        this.fechaActual = this.fecha.getDate() + '/' + (this.fecha.getMonth() + 1) + '/' + this.fecha.getFullYear() + ' ' + this.fecha.getHours() + ':' + this.fecha.getMinutes();
+
   }
+
+
+  genPdf() {
+    const elementToPrint: any = document.getElementById('ventasBrutas');
+
+    html2canvas(elementToPrint, { scale: 2 }).then((canvas) => {
+      const pdf = new jsPDF();
+      // pdf.addImage(canvas.toDataURL('https://res.cloudinary.com/dck9p8oly/image/upload/v1708054346/kxm8xrobc6i1ypjl2ra2.png'), 'PNG', 0, 0, 208, 298);
+      const imgData = canvas.toDataURL(
+        'https://res.cloudinary.com/dck9p8oly/image/upload/v1708054346/kxm8xrobc6i1ypjl2ra2.png'
+      );
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('ventasBrutas.pdf');
+      alert('Reporte generado con éxito');
+    });
+    
+  }
+
+
+  
 }
