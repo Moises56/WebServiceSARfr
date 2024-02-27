@@ -1,38 +1,64 @@
+<div class="container text-center"  id="bitacora">
+  <!-- Agregar imagen como título -->
+  <img src="/assets/logos/BITÁCORA.png" alt="BITACORA" class="img-fluid mx-auto mb-3"
+    style="width: 20%;padding-top: 15px;" />
+
+  <div class="table-responsive">
+    <table class="table  table-striped table-hover">
+      <thead style="border: 1px solid #5ccedf;">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Año</th>
+          <th scope="col">RTN</th>
+          <th scope="col">Empresa</th>
+          <th scope="col">TOTAL AMDC</th>
+          <th scope="col">TOTAL SAR</th>
+          <th scope="col">DIFERENCIA</th>
+          <th scope="col">Fecha / Hora</th>
+          <th scope="col">Usuario</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        @for (suma of sumaVVB; track suma.id; let i = $index) {
+        <tr>
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ suma.anio }}</td>
+          <td>{{ suma.RTN }}</td>
+          <td>{{ suma.nombreEmpresa }}</td>
+          <td>{{ suma.sumaAMDC }}</td>
+          <td>{{ suma.sumaSar }}</td>
+          <td>{{ suma.diferencia }}</td>
+          <!-- formatear la fecha: <td>{{ suma.createdAt }}</td> -->
+          <td>{{ suma.createdAt }}</td>
+
+          <td>{{ suma.usuario}}</td>
+
+        </tr>
+        }
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- paginaction -->
 <div class="container text-center">
-    <!-- Agregar imagen como título -->
-    <img src="/assets/logos/BITÁCORA.png" alt="BITACORA" class="img-fluid mx-auto mb-3" style="width: 20%;padding-top: 15px;"/>
-  
-<div class="table-responsive">
-  <table class="table  table-striped table-hover">
-    <thead  style="border: 1px solid #5ccedf;">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Año</th>
-        <th scope="col">RTN</th>
-        <th scope="col">Empresa</th>
-        <th scope="col">TOTAL AMDC</th>
-        <th scope="col">TOTAL SAR</th>
-        <th scope="col">Fecha</th>
-        <th scope="col">Usuario</th>
+  <div class="row">
+    <div class="col-12">
+      <ngb-pagination [collectionSize]="totalPages * limit" [(page)]="currentPage" [maxSize]="5" [rotate]="true"
+        [boundaryLinks]="true" (pageChange)="pageChange($event)" [pageSize]="limit" [ellipses]="false"
+        [directionLinks]="true" [disabled]="false" />
+        
+    </div>
+  </div>
+</div>
 
-      </tr>
-    </thead>
-    <tbody>
-      @for (suma of sumaVVB; track suma.id; let i = $index) {
-      <tr>
-        <th scope="row">{{ i + 1 }}</th>
-        <td>{{ suma.anio }}</td>
-        <td>{{ suma.RTN }}</td>
-        <td>{{ suma.nombreEmpresa }}</td>
-        <td>{{ suma.sumaAMDC }}</td>
-        <td>{{ suma.sumaSar }}</td>
-        <!-- formatear la fecha: <td>{{ suma.createdAt }}</td> -->
-        <td>{{ suma.createdAt }}</td>
+<!-- Bonton PDF -->
 
-        <td>{{ suma.usuario}}</td>
-
-      </tr>
-      }
-    </tbody>
-  </table>
+<div class="text-center">
+  <button type="button" class="button-89" role="button" (click)="genPdf()">
+    <span class="icon"></span>
+    GENERAR PDF
+  </button>
 </div>

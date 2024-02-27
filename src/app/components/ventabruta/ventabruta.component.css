@@ -66,7 +66,7 @@ to {
 }
 
 
-
+/* Bonton PDF */
 .button-89 {
 --b: 3px;   /* border thickness */
 --s: .45em; /* size of the corner */
@@ -180,7 +180,7 @@ border-radius: 10px;
 }
 
 
-/* barra */
+/* barra  de progreso*/
 
 @keyframes animate-stripes {
 0% {
@@ -219,7 +219,7 @@ animation: animate-stripes 120s linear infinite;
 
 .stripes.animated.slower {
 /* animation-duration: 1.25s; que dure 5 minutos */
-animation-duration: 120s;
+animation-duration: 1.25s;
 }
 
 .stripes.reverse {

@@ -3,17 +3,10 @@
     <div class="col-md-6">
 
       @if(errorMessage1){
-      <!-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <strong>Error: </strong>{{errorMessage1}}
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"  (closed)="close()"></button>
-            </div> -->
-
       <ngb-alert id="uno" (closed)="close()" type="danger">
         {{errorMessage1}}
       </ngb-alert>
       }
-
-
 
       <!-- <h4 class="text-center mb-4">Consulta Venta Brutas</h4> -->
       <img src="/assets/logos/CONSULTAVENTASBRUTAS.png" alt="CONSULTA VENTAS BRUTAS" class="img-fluid mx-auto mb-3"
@@ -60,11 +53,6 @@
   </div>
 </div>
 
-<!-- <div class="text-center">
-  <button type="button" class="btn btn-success w-50" (click)="genPdf()">
-    Generar PDF
-  </button>
-</div> -->
 
 @if (isLoadding) {
 <div class="container">
@@ -83,10 +71,6 @@
           <span class="progress-bar-inner" [style.width.%]="progress">{{ progress }}%</span>
         </div>
       </div>
-
-
-
-
     </div>
   </div>
 </div>
@@ -103,14 +87,20 @@
   </ngb-alert>
   }
 
+  @if(statusMessage){
+  <ngb-alert id="dos" (closed)="close()" type="info">
+    {{statusMessage}}
+  </ngb-alert>
+  }
+
   <div class="row">
 
     <div [ngClass]="{'visible':regionVisible == 'data', 'no-visible':regionVisible != 'data'}">
       @if(ventasData){
       <div class="col-12 table-responsive table-responsive-sm" id="ventasBrutas">
         <!-- <div class="banner"> -->
-          <img src="/assets/logos/baner10.png" alt="CONSULTA VENTAS BRUTAS" class="img-fluid mx-auto mb-3"/>
-        <!-- </div> --> 
+        <img src="/assets/logos/baner.png" alt="CONSULTA VENTAS BRUTAS" class="img-fluid mx-auto mb-3" />
+        <!-- </div> -->
 
         <div class="text-left" style="margin-left: 82%; transform: translateY(-45px);">
           <!-- <p class="text-muted ">Fecha: {{ fecha | date: 'dd/MM/yyyy' }} Hora: {{ fecha | date: 'HH:mm' }}</p> -->
@@ -126,6 +116,8 @@
               <th scope="col">EMPRESA</th>
               <th scope="col">TOTAL AMDC</th>
               <th scope="col">TOTAL SAR</th>
+              <th scope="col">DIFERENCIA</th>
+
             </tr>
           </thead>
           <tbody>
@@ -138,33 +130,12 @@
               <td>{{suma.nombreEmpresa}}</td>
               <td>{{suma.sumaAMDC}} </td>
               <td>{{suma.sumaSar}} </td>
+              <td>{{suma.diferencia}} </td>
             </tr>
             }
             }
           </tbody>
         </table>
-        <!-- </div> -->
-
-        <div class="text-center">
-          <!-- <button type="button" class="btn btn-success w-50" (click)="genPdf()">
-            Generar PDF
-          </button> -->
-
-
-          <button type="button" class="button-89" role="button" (click)="genPdf()">
-            <span class="icon"></span>
-            GENERAR PDF
-          </button>
-
-
-        </div>
-
-        <!-- agregar boton para ver la consulta  -->
-        <!-- <div class="text-center">
-          <button type="button" class="btn btn-success w-50" (click)="genPdf()">
-            Generar PDF
-          </button>
-        </div> -->
 
         <div [ngClass]="{'visible':regionVisible == 'verInfoSar', 'no-visible':regionVisible != 'verInfoSar'}">
           <ul class="list-group list-group-horizontal">
@@ -278,9 +249,17 @@
             <li class="list-group-item apo-p">{{ ventasData.data.ventasBrutas.ventasNetasMI18 }}</li>
           </ul>
         </div>
+      </div>
 
+      <div class="text-center">
+        <button type="button" class="button-89" role="button" (click)="genPdf()">
+          <span class="icon"></span>
+          GENERAR PDF
+        </button>
       </div>
       }
+
+
     </div>
 
 

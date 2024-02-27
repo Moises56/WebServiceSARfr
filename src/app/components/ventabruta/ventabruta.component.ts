@@ -14,6 +14,7 @@ import { AmdcData } from '../../interfaces/amdcData.interfaces';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
+
 interface Alert {
   type: string;
   message: string;
@@ -39,7 +40,11 @@ export class VentabrutaComponent implements OnInit {
   [x: string]: any;
   ventasData!: VentasData;
   NOMBRE_COMERCIAL: any = '';
-  CANTIDAD_DECLARADA: any = '';
+  CANTIDAD_DECLARADA!: any;
+  suAmdc!: any;
+  public TventaBrutas!: any;
+  suSar!: any;
+  diferencia!: any;
   isLoadding: boolean = false;
   regionVisible: String = '';
   i: number = 0;
@@ -52,13 +57,15 @@ export class VentabrutaComponent implements OnInit {
   User: any = '';
   UserId: any = '';
 
+  
   public VentaBruta$!: Observable<ResponseData>;
-  public TventaBrutas: string = '';
-
+  
   public errorMessages!: string;
   errorMessage: string = ''; // Variable para almacenar el mensaje de error
   errorMessage1: string = ''; // Variable para almacenar el mensaje de error
   errorMessage2: string = ''; // Variable para almacenar el mensaje de error
+  statusMessage: string = ''; // Variable para almacenar el mensaje de error
+  // stado!: any;
 
   responseData!: ResponseData;
 
@@ -90,6 +97,7 @@ export class VentabrutaComponent implements OnInit {
     //limpiar la variable de error errorMessage1 
     this.errorMessage1 = '';
     this.errorMessage = '';
+    this.statusMessage = '';
   }
 
   
@@ -155,16 +163,21 @@ export class VentabrutaComponent implements OnInit {
     // console.log(data2);
     this.apiRTN.getAmdcDatos(data2).subscribe(
       (responseData) => {
-        // console.log(responseData.message)
+        // console.log('SumaAMDC: ' , responseData.CANTIDAD_DECLARADA)
         this.errorMessage2 = responseData.message;
         this.NOMBRE_COMERCIAL = responseData.NOMBRE_COMERCIAL || responseData.message 
         this.CANTIDAD_DECLARADA = responseData.CANTIDAD_DECLARADA || 0
+        this.suAmdc = responseData.CANTIDAD_DECLARADA || 0;
 
         //separar por comas los miles y decimales CANTIDAD_DECLARADA y con la moneda Lempiras
         this.CANTIDAD_DECLARADA = this.CANTIDAD_DECLARADA.toLocaleString('es-HN', {
           style: 'currency',
           currency: 'HNL',
         });
+
+        // console.log('SumaAMDC: ' , this.CANTIDAD_DECLARADA)
+
+
       },
       (error) => {
         console.error('Error: ', error);
@@ -214,11 +227,19 @@ export class VentabrutaComponent implements OnInit {
 
             const uniqueId = this.idCounter++;
 
-            // separar por comas los miles y decimales de la suma de ventas brutas en lempiras
-            this.TventaBrutas = totalVentas.toLocaleString('es-HN', {
-              style: 'currency',
-              currency: 'HNL',
-            });
+            // console.log('SumaSAR: ', totalVentas);
+            this.suSar = totalVentas;
+            // console.log('SumaSAR: ', this.suSar);
+
+            //separar en miles y decimales la suma de ventas brutas sin la moneda
+              this.TventaBrutas = totalVentas.toLocaleString('es-HN', {
+                style: 'currency',
+                currency: 'HNL',
+              });
+
+            // const numeroConComas = numero.toLocaleString('es-ES');
+
+            // console.log('Sar: ', this.TventaBrutas)
 
             //obtener al usuario logueado
             const userDataString = localStorage.getItem('auth-user');
@@ -238,17 +259,42 @@ export class VentabrutaComponent implements OnInit {
               console.error('Error: data not found ');
             }
 
-            // save database
+            // diferncia entre la suma de ventas brutas y la suma de AMDC convertir a numero 
+            this.diferencia = this.suAmdc - this.suSar;
+            // console.log('Diferencia: ', this.diferencia);
 
+            // this.suSar es mayor que this.suAmdc entonces la diferencia es positiva y se muestra en verde
+            if (this.suAmdc > this.suSar) {
+              this.diferencia = this.diferencia.toLocaleString('es-HN', {
+                style: 'currency',
+                currency: 'HNL',
+              });
+              this.statusMessage = 'El volumen de ventas de la AMDC es mayor que el volumen de ventas del SAR, la diferencia es de: ' +  this.diferencia;
+              // console.log('Sar es mayor que AMDC: ', this.diferencia);
+            } else {
+              // this.suSar es menor que this.suAmdc entonces la diferencia es negativa y se muestra en rojo
+              this.diferencia = this.diferencia.toLocaleString('es-HN', {
+                style: 'currency',
+                currency: 'HNL',
+              });
+              this.statusMessage = 'El volumen de ventas de la AMDC es menor que el volumen de ventas del SAR, la diferencia es de: ' + this.diferencia;
+              // console.log('Sar es menor que AMDC: ', this.diferencia);
+            }
+
+
+            // save database
             const data = {
               userId: this.UserId,
               RTN: this.RTNI,
               nombreEmpresa: this.NOMBRE_COMERCIAL || this.errorMessage2,
               sumaAMDC: this.CANTIDAD_DECLARADA || 0,
               sumaSar: this.TventaBrutas,
+              diferencia: this.diferencia,
               anio: this.Anio,
               usuario: this.User,
             };
+
+            // console.log(data)
 
             this.apiRTN.saveSumaVB(data).subscribe(
               (responseData) => {
@@ -271,6 +317,7 @@ export class VentabrutaComponent implements OnInit {
               nombreEmpresa: this.NOMBRE_COMERCIAL || this.errorMessage2,
               sumaAMDC: this.CANTIDAD_DECLARADA || 0,
               sumaSar: this.TventaBrutas,
+              diferencia: this.diferencia,
               anio: this.Anio,
               usuario: this.User, // Reemplaza 'nombre_de_usuario' con la variable o valor correcto del usuario
             });

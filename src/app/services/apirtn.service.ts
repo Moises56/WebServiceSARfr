@@ -47,6 +47,7 @@ export class ApirtnService {
       nombreEmpresa: data.nombreEmpresa,
       sumaAMDC: data.sumaAMDC,
       sumaSar: data.sumaSar,
+      diferencia: data.diferencia,
       anio: data.anio,
       usuario: data.usuario
     }).pipe(
@@ -54,16 +55,22 @@ export class ApirtnService {
     );
   }
 
-  // obtener todas las sumas de ventas brutas
-  getSumaVB(): Observable<sumaVVB[]>{
-    return this.http.get<sumaVVB[]>(`${environment.urlSumaVB}/getSumaVVB`).pipe(
+  //* obtener todas las sumas de ventas brutas
+  getSumaVB(data:any): Observable<any>{
+    return this.http.post<any>(`${environment.urlSumaVB}/getSumaVVB`, {
+        page: data.page,
+        limit: data.limit
+    }).pipe(
       catchError(this.errorHandler)
     );
   }
 
-  // obtener todas las sumas de ventas brutas por el idUSer
-  getSumaVBIdUser(userId: string): Observable<sumaVVB[]>{
-    return this.http.get<sumaVVB[]>(`${environment.urlSumaVB}/getSumaVVB/${userId}`).pipe(
+  //* obtener todas las sumas de ventas brutas por el idUSer
+  getSumaVBIdUser(data: any): Observable<any>{
+    return this.http.post<any>(`${environment.urlSumaVB}/getSumaVVB/${data.userId}`, {
+      page: data.page,
+      limit: data.limit
+    }).pipe(
       catchError(this.errorHandler)
     );
   }

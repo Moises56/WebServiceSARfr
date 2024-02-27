@@ -12,6 +12,7 @@ export interface sumaVVB {
   nombreEmpresa: String , 
   sumaAMDC: String, 
   sumaSar: String, 
+  diferencia: String,
   anio: String, 
   usuario: String
   createdAt?: String

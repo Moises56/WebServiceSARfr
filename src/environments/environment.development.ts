@@ -13,8 +13,8 @@ export const environment = {
   urlAmdcData: `https://api.amdc.hn:9091/api/getAmdcDatos`,
 
   //?Development
-  // urLogin: `http://localhost:3000/api/auth`,
-  // urlSumaVB: `http://localhost:3000/api`,
+  // urLogin: `http://localhost:3000/api/auth`, 
+  //urlSumaVB: `http://localhost:3000/api`,
   // urlUser: `http://localhost:3000/api/users`,
     // urlAmdcData: `http://localhost:3000/api/getAmdcDatos`
 
