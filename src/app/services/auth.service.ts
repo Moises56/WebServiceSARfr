@@ -40,7 +40,8 @@ export class AuthService {
         } else {
           return false;
         }
-      } else {
+      } 
+      else {
         // Handle the case when localStorage is not available
         return console.log('not found');
       }

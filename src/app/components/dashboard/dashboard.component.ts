@@ -49,10 +49,12 @@ export class DashboardComponent implements OnInit {
       // Obtener el nombre de usuario
       const username = userData.username;
       this.User = username;
+      
 
       // Obtener el rol del usuario
       const rol = userData.roles[0];
       this.Rol = rol;
+      
     } else {
       console.error('error: data not found.');
     }
