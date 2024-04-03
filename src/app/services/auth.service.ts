@@ -17,6 +17,21 @@ export class AuthService {
     private router: Router,
   ) {}
 
+
+  signup(data: any): Observable<any> {
+    // console.log(data);
+    return this.http
+      .post(`${environment.urLogin}/signup`, {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        identidad: data.identidad,
+        gerencia: data.gerencia,
+        roles: data.roles,
+      })
+      .pipe(catchError(this.errorHandler));
+  }
+
   signin(data: any): Observable<any> {
     return this.http
       .post(`${environment.urLogin}/signin`, {
@@ -26,8 +41,10 @@ export class AuthService {
       .pipe(catchError(this.errorHandler));
   }
 
+  private isLocalStorageAvailable = typeof localStorage !== 'undefined';
+
   loggedIng() {
-    if (typeof localStorage !== 'undefined') {
+    if (this.isLocalStorageAvailable) {
       // Your code that uses localStorage goes here
       const userDataString = localStorage.getItem('auth-user');
       if (userDataString) {
@@ -42,8 +59,8 @@ export class AuthService {
         }
       } 
       else {
-        // Handle the case when localStorage is not available
-        return console.log('not found');
+        // que retorne user no logueado, una sola ves
+        return console.error('user-not-logged');
       }
     }
   }

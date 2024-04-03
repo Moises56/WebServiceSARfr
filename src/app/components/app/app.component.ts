@@ -9,6 +9,7 @@ import { ResponseData } from '../../interfaces/consRTN.interfaces';
 import { ConsultaRTNComponent } from '../consulta-rtn/consulta-rtn.component';
 import { AuthService } from '../../services/auth.service';
 import { DashboardComponent } from '../dashboard/dashboard.component';
+import { AccesspointService } from '../../services/accesspoint.service';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -32,7 +33,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private sarapiService: SarapiService,
-    public authService: AuthService
+    public authService: AuthService,
+    private accesspoint: AccesspointService,
     ) { }
 
   ngOnInit(): void {
@@ -43,5 +45,15 @@ export class AppComponent implements OnInit {
   visible(){
     // this.accesspoint.onVisible.emit(false);
   }
+
+  
+  onDash(){
+    const visible = 'onDash';
+    // envia el evento al accesspoint
+    this.accesspoint.onVisible.emit(visible);
+    console.log('onDash: ', visible);
+
+  }
+
 
 }

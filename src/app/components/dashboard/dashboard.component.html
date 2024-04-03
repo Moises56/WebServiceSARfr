@@ -79,6 +79,15 @@
   <!-- <h1>A un minuto de ti</h1> -->
   <div class="contenedor">
 
+    @if (onDashboardL) {
+      <div>
+        <app-home></app-home>
+      </div>
+    }
+   
+
+   
+
     <!-- <p>Table is just a mapping of objects to table rows with <code>&#64;for</code></p> -->
 
     <div [ngClass]="{'visible':regionVisible == 'inicio', 'no-visible':regionVisible != 'inicio'}">
@@ -121,8 +130,12 @@
       </div>
     </div>
 
-
-
+    <!-- mostrar si es distintos de los otros -->
+    <div [ngClass]="{'visible':regionVisible != 'onDash', 'no-visible':regionVisible != 'onDash'}">
+      <div>
+        <app-home></app-home>
+      </div>
+      
 
   </div>
 

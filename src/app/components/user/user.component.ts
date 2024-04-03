@@ -13,6 +13,7 @@ import {
 } from '@angular/forms';
 
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class UserComponent implements OnInit {
   userObj: Users;
   updateUser: any = [];
   userId: any;
+  rol: any = [];
 
   errorMessage = '';
   form: FormGroup = new FormGroup({
@@ -50,6 +52,7 @@ export class UserComponent implements OnInit {
   });
 
   constructor(
+    private auth: AuthService,
     private user: UserService,
     config: NgbModalConfig,
     private modalService: NgbModal,
@@ -89,7 +92,7 @@ export class UserComponent implements OnInit {
             Validators.maxLength(40)
           ]
         ],
-        identidada: ['', [Validators.required]],
+        identidad: ['', [Validators.required]],
         gerencia: ['', [Validators.required]],
         roles: ['', [Validators.required]],
       },
@@ -107,7 +110,7 @@ export class UserComponent implements OnInit {
             Validators.maxLength(40)
           ]
         ],
-        identidada: ['', [Validators.required]],
+        identidad: ['', [Validators.required]],
         gerencia: ['', [Validators.required]],
         roles: ['', [Validators.required]],
       },
@@ -125,23 +128,33 @@ export class UserComponent implements OnInit {
     );
   }
 
+
+  // convenience getter for easy access to form fields
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
   }
 
+  // abre el modal1
   open(content: any) {
     this.modalService.open(content);
   }
+
+  // abre el modal2
   open2(content2: any) {
     this.modalService.open(content2);
   }
 
+  //cierra el modal
   close() {
     this.modalService.dismissAll();
   }
 
+
+  // Create user
   onSubmit(): void {
     this.submitted = true;
+
+    this.rol = this.form.value.roles === "moderator" ? ["moderator"] : this.form.value.roles === "admin" ? ["admin"] : [];
 
     const data = {
       username: this.form.value.username,
@@ -149,10 +162,12 @@ export class UserComponent implements OnInit {
       password: this.form.value.password,
       identidad: this.form.value.identidad,
       gerencia: this.form.value.gerencia,
-      roles: this.form.value.roles,
+      roles: this.rol,
+
     };
-    console.log(data)
-    this.user.createUser(data).subscribe(
+    // console.log(data)
+
+    this.auth.signup(data).subscribe(
       (res) => {
         // console.log(res);
         this.close();
@@ -162,12 +177,14 @@ export class UserComponent implements OnInit {
         console.log(error);
       }
     );
+
   }
 
+  // Get user by ID
   upUser(id: string) {
     this.user.getUserById(id).subscribe(
       (res) => {
-        // console.log(res._id)
+        console.log(res)
         this.userId = res._id;
         this.updateUser = res;
       },
@@ -176,19 +193,29 @@ export class UserComponent implements OnInit {
       }
     );
   }
-  
+
+
+  // Delete user  
  delUser(id: string) {
-    this.user.deleteUser(id).subscribe(
-      (res) => {
-        // console.log(res);
-        this.ngOnInit();
-      },
-      (error) => {
-        console.log(error);
+    try {
+      // preguntar si esta seguro de eliminar
+      if (confirm('¿Estás seguro de eliminar este usuario?')) {
+        this.user.deleteUser(id).subscribe(
+          (res) => {
+            // console.log(res);
+            this.ngOnInit();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       }
-    );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
+  // editar usuario
   onUpdate(){
     const data = {
       id: this.userId,
@@ -199,10 +226,13 @@ export class UserComponent implements OnInit {
       gerencia: this.formUpdate.value.gerencia,
       roles: this.formUpdate.value.roles,
     };
-    console.log(data)
+    // console.log(data)
     this.user.updateUser(data).subscribe(
       (res) => {
-        // console.log(res);
+        //
+        alert('Usuario actualizado');
+
+        //console.log(res);
         this.close();
         this.ngOnInit();
       },
@@ -216,6 +246,7 @@ export class UserComponent implements OnInit {
 }
 
 
+// interface Users 
 export class Users {
   username: string;
   email: string;

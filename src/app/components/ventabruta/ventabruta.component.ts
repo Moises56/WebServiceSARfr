@@ -7,7 +7,7 @@ import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { VentasData } from '../../interfaces/ventas.interface';
-import { sumaVVB } from '../../interfaces/sumaVenta.interfaces';
+import { datosAMdc, sumaVVB } from '../../interfaces/sumaVenta.interfaces';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorAlertComponent } from '../error-alert/error-alert.component';
 import { AmdcData } from '../../interfaces/amdcData.interfaces';
@@ -42,6 +42,12 @@ export class VentabrutaComponent implements OnInit {
   NOMBRE_COMERCIAL: any = '';
   CANTIDAD_DECLARADA!: any;
   suAmdc!: any;
+  STATUS!: any;
+  FECHA!: any;
+  ANIO!: any;
+
+  DataAmdc: any[] = [];
+
   public TventaBrutas!: any;
   suSar!: any;
   diferencia!: any;
@@ -50,6 +56,7 @@ export class VentabrutaComponent implements OnInit {
   i: number = 0;
   RTNI: any = '';
   public sumasVentasBrutas: sumaVVB[] = [];
+  public datosAMdc: datosAMdc[] = [];
   public idCounter = 1; // Contador para generar IDs únicos
   Anio: any = '';
   Year: any = '';
@@ -59,7 +66,6 @@ export class VentabrutaComponent implements OnInit {
 
   
   public VentaBruta$!: Observable<ResponseData>;
-  
   public errorMessages!: string;
   errorMessage: string = ''; // Variable para almacenar el mensaje de error
   errorMessage1: string = ''; // Variable para almacenar el mensaje de error
@@ -118,10 +124,8 @@ export class VentabrutaComponent implements OnInit {
     this.Anio = this.formRtn.value.Anio;
 
     // mostrar la fecha y hora actual
-    // this.fecha = new Date();
     this.fechaActual = this.fecha.getDate() + '/' + (this.fecha.getMonth() + 1) + '/' + this.fecha.getFullYear() + ' ' + this.fecha.getHours() + ':' + this.fecha.getMinutes();
   
-
     this.onSelecAnio(this.Anio);
 
     const data = {
@@ -149,48 +153,27 @@ export class VentabrutaComponent implements OnInit {
       this.progress = estimatedProgress;
       //redondear el progreso
       
-
       // Detener el temporizador si el progreso alcanza el 100% o si se establece en 0 al finalizar la suscripción
       if (this.progress >= 100 || this.progress === 0) {
         clearInterval(progressInterval);
       }
     }, 1000); // Intervalo de actualización del progreso
 
-
-
-
-
-    // console.log(data2);
     this.apiRTN.getAmdcDatos(data2).subscribe(
       (responseData) => {
-        // console.log('SumaAMDC: ' , responseData.CANTIDAD_DECLARADA)
+        // console.log('getAmdcDatos: ' , responseData)
         this.errorMessage2 = responseData.message;
-        this.NOMBRE_COMERCIAL = responseData.NOMBRE_COMERCIAL || responseData.message 
-        this.CANTIDAD_DECLARADA = responseData.CANTIDAD_DECLARADA || 0
-        this.suAmdc = responseData.CANTIDAD_DECLARADA || 0;
-
-        //separar por comas los miles y decimales CANTIDAD_DECLARADA y con la moneda Lempiras
-        this.CANTIDAD_DECLARADA = this.CANTIDAD_DECLARADA.toLocaleString('es-HN', {
-          style: 'currency',
-          currency: 'HNL',
-        });
-
-        // console.log('SumaAMDC: ' , this.CANTIDAD_DECLARADA)
-
-
       },
       (error) => {
         console.error('Error: ', error);
       }
     );
 
-
-
+  ///**** */
 
     this.isLoadding = true;
 
     this.apiRTN.getVentaBruta(data).subscribe(
-
       (responseData) => {
         try {
 
@@ -237,10 +220,6 @@ export class VentabrutaComponent implements OnInit {
                 currency: 'HNL',
               });
 
-            // const numeroConComas = numero.toLocaleString('es-ES');
-
-            // console.log('Sar: ', this.TventaBrutas)
-
             //obtener al usuario logueado
             const userDataString = localStorage.getItem('auth-user');
 
@@ -259,77 +238,119 @@ export class VentabrutaComponent implements OnInit {
               console.error('Error: data not found ');
             }
 
-            // diferncia entre la suma de ventas brutas y la suma de AMDC convertir a numero 
-            this.diferencia = this.suAmdc - this.suSar;
-            // console.log('Diferencia: ', this.diferencia);
 
-            // this.suSar es mayor que this.suAmdc entonces la diferencia es positiva y se muestra en verde
-            if (this.suAmdc > this.suSar) {
-              this.diferencia = this.diferencia.toLocaleString('es-HN', {
-                style: 'currency',
-                currency: 'HNL',
-              });
-              this.statusMessage = 'El volumen de ventas de la AMDC es mayor que el volumen de ventas del SAR, la diferencia es de: ' +  this.diferencia;
-              // console.log('Sar es mayor que AMDC: ', this.diferencia);
-            } else {
-              // this.suSar es menor que this.suAmdc entonces la diferencia es negativa y se muestra en rojo
-              this.diferencia = this.diferencia.toLocaleString('es-HN', {
-                style: 'currency',
-                currency: 'HNL',
-              });
-              this.statusMessage = 'El volumen de ventas de la AMDC es menor que el volumen de ventas del SAR, la diferencia es de: ' + this.diferencia;
-              // console.log('Sar es menor que AMDC: ', this.diferencia);
-            }
+              //***  */Rectificacion de datos urlAmdcDatoscS
+                this.apiRTN.getAmdcDatoscS(data2).subscribe(
+                  (responseData) => {
+                    // console.log('getAmdcDatoscS: ' , responseData)
+                    this.errorMessage2 = responseData.message;
 
+                    //recorrer el objeto para obtener los datos
+                    for (const key in responseData) {
+                      if (responseData.hasOwnProperty(key)) {
+                        const element = responseData[key];
+                        this.RTNI = element.RTN;
+                        this.NOMBRE_COMERCIAL = element.NOMBRE_COMERCIAL;
+                        this.CANTIDAD_DECLARADA = element.CANTIDAD_DECLARADA;
+                        this.suAmdc = element.CANTIDAD_DECLARADA;
+                        this.STATUS = element.ESTATUS;
+                        this.FECHA = element.FECHA;
+                        this.ANIO = element.ANIO;
+                      }
+                      
+                      //convertir a tipo de numerico la cantidad declarada
+                      this.CANTIDAD_DECLARADA = parseFloat(this.CANTIDAD_DECLARADA);
+                      //separar por comas los miles y decimales CANTIDAD_DECLARADA y con la moneda Lempiras
+                      this.CANTIDAD_DECLARADA = this.CANTIDAD_DECLARADA.toLocaleString('es-HN', {
+                        style: 'currency',
+                        currency: 'HNL',
+                      });
 
-            // save database
-            const data = {
-              userId: this.UserId,
-              RTN: this.RTNI,
-              nombreEmpresa: this.NOMBRE_COMERCIAL || this.errorMessage2,
-              sumaAMDC: this.CANTIDAD_DECLARADA || 0,
-              sumaSar: this.TventaBrutas,
-              diferencia: this.diferencia,
-              anio: this.Anio,
-              usuario: this.User,
-            };
+                      // diferncia entre la suma de ventas brutas y la suma de AMDC convertir a numero 
+                      this.diferencia = this.suAmdc - this.suSar;
 
-            // console.log(data)
+                      // this.sumaSar es mayor que this.suAmdc entonces la diferencia es positiva y se muestra en verde
+                      if (this.suAmdc > this.suSar) {
+                        this.diferencia = this.diferencia.toLocaleString('es-HN', {
+                          style: 'currency',
+                          currency: 'HNL',
+                        });
+                        this.statusMessage = 'El volumen de ventas de la AMDC es mayor que el volumen de ventas del SAR, la diferencia es de: ' +  this.diferencia;
+                        // console.log('Sar es mayor que AMDC: ', this.diferencia);
+                      } else {
+                        // this.suSar es menor que this.suAmdc entonces la diferencia es negativa y se muestra en rojo
+                        this.diferencia = this.diferencia.toLocaleString('es-HN', {
+                          style: 'currency',
+                          currency: 'HNL',
+                        });
+                        this.statusMessage = 'El volumen de ventas de la AMDC es menor que el volumen de ventas del SAR, la diferencia es de: ' + this.diferencia;
+                        // console.log('Sar es menor que AMDC: ', this.diferencia);
+                      }
 
-            this.apiRTN.saveSumaVB(data).subscribe(
-              (responseData) => {
-                // console.log(responseData);
-              },
-              (error) => {
-                this.errorMessage =
-                error?.error?.message || 'Error desconocido';
-                this.regionVisible = 'error';
+                      // guardar los datos en un arreglo DataAmdc
+                      this.DataAmdc.push({
+                        RTN: this.RTNI,
+                        NOMBRE_COMERCIAL: this.NOMBRE_COMERCIAL,
+                        CANTIDAD_DECLARADA: this.CANTIDAD_DECLARADA,
+                        STATUS: this.STATUS,
+                        FECHA: this.FECHA,
+                        ANIO: this.ANIO,
+                      });
 
-                this.isLoadding = false;
-                console.error('Error de RTN:', error);
-              }
-            );
+                      // save database
+                      const data = {
+                        userId: this.UserId,
+                        RTN: this.RTNI,
+                        nombreEmpresa: this.NOMBRE_COMERCIAL || this.errorMessage2,
+                        sumaAMDC: this.CANTIDAD_DECLARADA || 0,
+                        sumaSar: this.TventaBrutas,
+                        diferencia: this.diferencia,
+                        anio: this.Anio,
+                        usuario: this.User,
+                      };
 
-            // Agregar la suma al arreglo con el formato adecuado
-            this.sumasVentasBrutas.push({
-              id: uniqueId,
-              RTN: this.RTNI,
-              nombreEmpresa: this.NOMBRE_COMERCIAL || this.errorMessage2,
-              sumaAMDC: this.CANTIDAD_DECLARADA || 0,
-              sumaSar: this.TventaBrutas,
-              diferencia: this.diferencia,
-              anio: this.Anio,
-              usuario: this.User, // Reemplaza 'nombre_de_usuario' con la variable o valor correcto del usuario
-            });
+                      this.apiRTN.saveSumaVB(data).subscribe(
+                        (responseData) => {
+                          // console.log(responseData);
+                        },
+                        (error) => {
+                          this.errorMessage =
+                          error?.error?.message || 'Error desconocido';
+                          this.regionVisible = 'error';
 
-            // Guardar el arreglo en LocalStorage
-            localStorage.setItem(
-              'sumasVentasBrutas',
-              JSON.stringify(this.sumasVentasBrutas)
-            );
+                          this.isLoadding = false;
+                          console.error('Error de RTN:', error);
+                        }
+                      );
 
-            let sumasVentasBrutasLS = localStorage.getItem('sumasVentasBrutas');
-            this.sumasVentasBrutas = JSON.parse(sumasVentasBrutasLS || '[]');
+                      // Agregar la suma al arreglo con el formato adecuado
+                      this.sumasVentasBrutas.push({
+                        id: uniqueId,
+                        RTN: this.RTNI,
+                        nombreEmpresa: this.NOMBRE_COMERCIAL || this.errorMessage2,
+                        sumaAMDC: this.CANTIDAD_DECLARADA || 0,
+                        sumaSar: this.TventaBrutas,
+                        diferencia: this.diferencia,
+                        anio: this.Anio,
+                        usuario: this.User
+                      });
+
+                      // guardar en la localstorage el arreglo DataAmdc
+                      localStorage.setItem('DataAmdc', JSON.stringify(this.DataAmdc));
+                      this.DataAmdc = JSON.parse(localStorage.getItem('DataAmdc') || '[]');
+                      // console.log('DataAmdc: ', this.DataAmdc);
+
+                      // Guardar el arreglo en LocalStorage
+                      localStorage.setItem('sumasVentasBrutas',JSON.stringify(this.sumasVentasBrutas));
+
+                      let sumasVentasBrutasLS = localStorage.getItem('sumasVentasBrutas');
+                      this.sumasVentasBrutas = JSON.parse(sumasVentasBrutasLS || '[]');
+                    }
+                  },
+                  (error) => {
+                    console.error('Error: ', error);
+                  }
+                );
           }
         } catch (error) {
           console.log(error);

@@ -19,6 +19,10 @@
     font-family: titulos,"Open Sans", sans-serif;
     color: #585a61;
   } */
+
+  .btnCerar{
+    cursor: pointer;
+  }
   
   a {
     color: #5777ba;

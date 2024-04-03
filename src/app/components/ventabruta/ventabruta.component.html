@@ -2,11 +2,7 @@
   <div class="row justify-content-center align-items-center" style="height: 55vh;">
     <div class="col-md-6">
 
-      @if(errorMessage1){
-      <ngb-alert id="uno" (closed)="close()" type="danger">
-        {{errorMessage1}}
-      </ngb-alert>
-      }
+      
 
       <!-- <h4 class="text-center mb-4">Consulta Venta Brutas</h4> -->
       <img src="/assets/logos/CONSULTAVENTASBRUTAS.png" alt="CONSULTA VENTAS BRUTAS" class="img-fluid mx-auto mb-3"
@@ -54,6 +50,8 @@
 </div>
 
 
+
+
 @if (isLoadding) {
 <div class="container">
   <div class="row justify-content-center align-items-center">
@@ -78,6 +76,12 @@
 }
 
 <div class="container">
+
+  @if(errorMessage1){
+  <ngb-alert id="uno" (closed)="close()" type="danger">
+    {{errorMessage1}}
+  </ngb-alert>
+  }
 
 
   @if(errorMessage){

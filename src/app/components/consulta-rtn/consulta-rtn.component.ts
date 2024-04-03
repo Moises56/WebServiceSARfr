@@ -104,7 +104,7 @@ export class ConsultaRTNComponent implements OnInit {
         this.regionVisible = 'data';
         this.isLoadding = false;
         console.error('Error de RTN:', error);
-        console.log(this.progress);
+        // console.log(this.progress);
         // Detener el temporizador y ocultar la barra de progreso
         clearInterval(progressInterval);
       }

@@ -1,7 +1,7 @@
 export const environment = {
   apiUrl: `https://pokeapi.co/api/v2/`,
-  conVentBrUrl: `http://172.20.40.47:7075/int-middleware-gateway/api/v1/AMDC/ConsultaVentasBrutas`,
-  conRTNUrl: `http://172.20.11.52:7075/int-middleware-gateway/api/v1/AMDC/ConsultaRTN`,
+  conVentBrUrl: `https://api.amdc.hn/api/apirtn`,
+  conRTNUrl: `https://api.amdc.hn/api/ventaBruta`,
 
   RTNurl: `https://api.amdc.hn/api/apirtn`,
   Ventaurl: `https://api.amdc.hn/api/ventaBruta`,
@@ -11,11 +11,14 @@ export const environment = {
   
   urlSumaVB: `https://api.amdc.hn/api/`,
   urlAmdcData: `https://api.amdc.hn/api/getAmdcDatos`,
+  urlAmdcDatoscS: `https://api.amdc.hn/api/getAmdcDatoscS`,
+
 
   //?Development
-  // urLogin: `http://localhost:3000/api/auth`, 
+  //urLogin: `http://localhost:3000/api/auth`, 
   //urlSumaVB: `http://localhost:3000/api`,
-  // urlUser: `http://localhost:3000/api/users`,
-    // urlAmdcData: `http://localhost:3000/api/getAmdcDatos`
+  //urlUser: `http://localhost:3000/api/users`,
+  //urlAmdcData: `http://localhost:3000/api/getAmdcDatos`,
+  //urlAmdcDatoscS: `http://localhost:3000/api/getAmdcDatoscS`
 
 };

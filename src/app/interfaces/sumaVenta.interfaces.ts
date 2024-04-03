@@ -17,3 +17,19 @@ export interface sumaVVB {
   usuario: String
   createdAt?: String
 }
+
+export interface datosAMdc {
+  userId?: String, // o el tipo correcto para tu ID
+  id?: number, // o el tipo correcto para tu ID
+  _id?: String,
+  RTN: String, 
+  nombreEmpresa: String , 
+  sumaAMDC: String, 
+  sumaSar: String, 
+  diferencia: String,
+  anio: String, 
+  status: number,
+  fecha: String,
+  usuario: String
+  createdAt?: String
+}

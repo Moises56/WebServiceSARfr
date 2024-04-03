@@ -11,7 +11,6 @@
     <nav id="navbar" class="navbar">
 
         <ul>
-
           <li class="nav-item">
             <a class="nav-link spacio active " aria-current="page" [routerLink]="'/home'">Inicio</a>
           </li>
@@ -24,7 +23,7 @@
   
           <ng-template #loggedIng>
             <li class="nav-item">
-              <a class="nav-link scrollto" [routerLink]="'/dashboard'">Dashboard</a>
+              <a class="nav-link scrollto" [routerLink]="'/dashboard'" (click)="onDash()">Dashboard</a>
             </li>
   
             <li class="nav-item">
@@ -36,10 +35,9 @@
             </li>
   
             <li class="nav-item">
-              <a class="nav-link scrollto" (click)="authService.logout()">Cerrar Sesión</a>
+              <a class="nav-link scrollto btnCerar" (click)="authService.logout()">Cerrar Sesión</a>
             </li>
           </ng-template>
-          
 
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -48,12 +46,10 @@
     </div>
   </header><!-- End Header -->
 
-
   <div class="container">
     <div class="row">
       <div class="col">
         <router-outlet></router-outlet>
-  
       </div>
     </div>
   </div>

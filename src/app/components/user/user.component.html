@@ -41,6 +41,7 @@
   
   
   
+  <!-- Registrar Usuario -->
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Registrar Usuario</h4>
@@ -196,9 +197,6 @@
 
           <form class="login" [formGroup]="formUpdate" (ngSubmit)="onUpdate()" autocomplete="off" novalidate>
             <!-- @for( user of updateUser; track user.id; let i = $index) { -->
-
-
-
             <!-- crear un usuario username,email, password,roles-->
             <div class="login__field">
               <i class="login__icon fas fa-user"></i>
@@ -286,7 +284,7 @@
                 <h6><span class="badge bg-danger">La gerencia es requerida</span></h6>
                 }
                 @if (f['gerencia'].errors['minlength']) {
-                <h6><span class="badge bg-danger">La gerencia debe tener al menos 6 caracteres</span></h6>
+                <h6><span class="badge bg-danger">La gerencia debe tener al menos 3 caracteres</span></h6>
                 }
                 @if (f['gerencia'].errors['maxlength']) {
                 <h6><span class="badge bg-danger">La gerencia no debe superar los 40 caracteres</span></h6>
@@ -300,10 +298,11 @@
               <i class="login__icon fas fa-start"></i>
               <!-- select list con los roles de admin y moderator -->
               <select class="login__input" formControlName="roles" required>
+                <!-- mostrar el rol default -->
+                <option>{{updateUser.roles[0].name}}</option>
                 <option value="admin">Admin</option>
                 <option value="moderator">Moderator</option>
               </select>
-
             </div>
 
             <button type="submit" class="button login__submit">

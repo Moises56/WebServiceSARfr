@@ -31,6 +31,8 @@ export class DashboardComponent implements OnInit {
   Rol: any = '';
   isMenuCollapsed = true;
   isActive: boolean = false;
+  onDashboard: string = '';
+  onDashboardL: any = '';
 
   constructor(
     public authService: AuthService,
@@ -39,6 +41,20 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    //si recarga la pagina que y no hay evento onDashboard, guardar el evento onDashboara
+    // if (this.onDashboardL === '' || this.onDashboardL === null || this.onDashboardL === undefined) {
+    //   const visible = 'onDash';
+    //   localStorage.setItem('onDashboard', visible);
+    // }
+
+    this.onDashboardL = localStorage.getItem('onDashboard');
+
+    // obtener el evento onDashboard
+    // this.onDashboardL = localStorage.getItem('onDashboard');
+
+    this.onVisible();
+    this.onVisibleLog();
     //obtener al usuario logueado
     const userDataString = localStorage.getItem('auth-user');
     // Verificar si los datos existen
@@ -69,24 +85,82 @@ export class DashboardComponent implements OnInit {
   onUser() {
     // mostrar la region al hacer click y manternerla visible
     this.regionVisible = 'user';
+
+    //eliminar el evento onDashboard
+    localStorage.removeItem('onDashboard');
+
+    //recargar la pagina oninit
+    this.ngOnInit();
   }
 
   onHome() {
     // mostrar la region al hacer click y manternerla visible
     this.regionVisible = 'inicio';
+    //eliminar el evento onDashboard
+    localStorage.removeItem('onDashboard');
+    //recargar la pagina oninit
+    this.ngOnInit();
   }
 
   onConsRtn() {
     this.regionVisible = 'consultaRtn';
+    //eliminar el evento onDashboard
+    localStorage.removeItem('onDashboard');
+    //recargar la pagina oninit
+    this.ngOnInit();
   }
 
   onVentaB() {
     this.regionVisible = 'ventasBrutas';
+    //eliminar el evento onDashboard
+    localStorage.removeItem('onDashboard');
+    //recargar la pagina oninit
+    this.ngOnInit();
   }
   onBitacora() {
     this.regionVisible = 'bitacora';
+    //eliminar el evento onDashboard
+    localStorage.removeItem('onDashboard');
+    //recargar la pagina oninit
+    this.ngOnInit();
   }
   onMisConsultas() {
     this.regionVisible = 'misConsultas';
+    //eliminar el evento onDashboard
+    localStorage.removeItem('onDashboard');
+    this.ngOnInit();
   }
+
+  // recibe el evento de app.component.ts para mostrar el dashboard
+  onVisible() {
+    this.accesspointService.onVisible.subscribe(
+      res => {
+        // console.log(res);
+        this.regionVisible = res;
+        
+      }
+    );
+    //eliminar el evento onDashboard
+    // localStorage.removeItem('onDashboard');
+  }
+
+  onVisibleLog() {
+    this.accesspointService.onVisibleLog.subscribe(
+      res => {
+        // console.log(res);
+        const visible = 'onDash';
+          //guardar el evento onDashboard
+          localStorage.setItem('onDashboard', visible);
+        // this.onDashboard = res; 
+        // this.onDashboard = res;     
+        // obtener el evento onDashboard
+        this.onDashboardL = localStorage.getItem('onDashboard');
+        // console.log(this.onDashboardL);
+        this.regionVisible = this.onDashboardL;
+      }
+    );
+  }
+  
+
+
 }

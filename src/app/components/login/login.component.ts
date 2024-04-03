@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private tokenStorage: TokenStorageService,
-    private accesspointService: AccesspointService,
+    private accesspoint: AccesspointService,
     private router: Router,
     private fb : FormBuilder
     ) {
@@ -73,6 +73,8 @@ export class LoginComponent implements OnInit {
   close() {}
 
   onSubmit(): void {
+        
+
     this.submitted = true;
 
     const data = {
@@ -90,19 +92,29 @@ export class LoginComponent implements OnInit {
           // this.roles = this.tokenStorage.getUser().roles;
           this.router.navigate(['/dashboard']);
           
+          const visible = 'onDash';
+          this.accesspoint.onVisibleLog.emit(visible);
+          //guardar el evento onDashboard
+          localStorage.setItem('onDashboard', visible);
+          
         }else if(res.message){
-          console.log(res.message)
+          // console.log(res.message)
           this.errorMessage = res.message;
           this.isLoginFailed = false;
         }
 
         // this.reloadPage();
+
+        
       },
       err => {
         this.errorMessage = err.error.message;
         this.isLoginFailed = true;
       }
       );
+
+
+     
   }
 
   reloadPage(): void {

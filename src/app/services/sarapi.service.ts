@@ -17,22 +17,22 @@ export class SarapiService {
   public password: string = '';
 
   // obtener la consulta de RTN pasandole el numero de identidad como parametro en el body de la peticion post y las credenciales de acceso basicas en el header de la peticion post
-  getDataWithCredentials(): Observable<ResponseData> {
-    const credentials = btoa(`${this.username}:${this.password}`); // Codifica las credenciales a Base64
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Allow-Credentials': 'true',
-      'Authorization': `Basic ${credentials}` // Agrega las credenciales al encabezado
-    });
+  // getDataWithCredentials(): Observable<ResponseData> {
+  //   const credentials = btoa(`${this.username}:${this.password}`); // Codifica las credenciales a Base64
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Access-Control-Allow-Origin': '*',
+  //     'Access-Control-Allow-Methods': 'POST',
+  //     'Access-Control-Allow-Headers': 'Content-Type',
+  //     'Access-Control-Allow-Credentials': 'true',
+  //     'Authorization': `Basic ${credentials}` // Agrega las credenciales al encabezado
+  //   });
 
-    return this.http.post<ResponseData>(`${environment.conRTNUrl}`,  {
-      rtn: "08019998379342"
-    }, { headers }
-   );
-  }
+  //   return this.http.post<ResponseData>(`${environment.conRTNUrl}`,  {
+  //     rtn: "08019998379342"
+  //   }, { headers }
+  //  );
+  // }
 
 
 

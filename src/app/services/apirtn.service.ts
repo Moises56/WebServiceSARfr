@@ -77,9 +77,25 @@ export class ApirtnService {
 
   // obtener todas las sumas de ventas brutas por el
   getAmdcDatos(data2:any): Observable<any>{
+    //convertir a number el data2.ANIO y sumarle 1
+    const anio = Number(data2.ANIO) + 1;
+    // console.log(data2.RTN, anio)
+
     return this.http.post<any>(`${environment.urlAmdcData}`,{
       RTN: data2.RTN,
-      ANIO: data2.ANIO
+      ANIO: anio
+    }).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+  // obtener todas las sumas de ventas brutas por el
+  getAmdcDatoscS(data2:any): Observable<any>{
+    const anio = Number(data2.ANIO) + 1;
+    console.log(data2.RTN, anio)
+    return this.http.post<any>(`${environment.urlAmdcDatoscS}`,{
+      RTN: data2.RTN,
+      ANIO: anio
     }).pipe(
       catchError(this.errorHandler)
     );

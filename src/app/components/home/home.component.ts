@@ -32,17 +32,17 @@ export class HomeComponent implements OnInit {
         // Obtener el nombre de usuario
         const username = userData.username;
         this.User = username;
-        console.log('usuario: ', this.User);
+        // console.log('usuario: ', this.User);
     
         // Obtener el rol del usuario
         const rol = userData.roles[0];
         this.Rol = rol;
-        console.log('rol: ', this.Rol);
+        // console.log('rol: ', this.Rol);
       } else {
-        console.error('No se encontraron datos del usuario en localStorage');
+        console.error('User not found');
       }
     } else {
-      console.error('El objeto localStorage no está definido en este entorno');
+      console.error('Object not defined');
     }
   }
 
