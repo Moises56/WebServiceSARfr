@@ -5,5 +5,7 @@ export const environment = {
   urLogin: `https://api.amdc.hn/api/auth`,
   urlSumaVB: `https://api.amdc.hn/api/`,
   urlUser: `https://api.amdc.hn/api/users`,
+  urlAmdcData: `https://api.amdc.hn/api/getAmdcDatos`,
+  urlAmdcDatoscS: `https://api.amdc.hn/api/getAmdcDatoscS`,
   production: true
 };
