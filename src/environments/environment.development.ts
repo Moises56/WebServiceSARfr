@@ -12,6 +12,7 @@ export const environment = {
   urlSumaVB: `https://api.amdc.hn/api/`,
   urlAmdcData: `https://api.amdc.hn/api/getAmdcDatos`,
   urlAmdcDatoscS: `https://api.amdc.hn/api/getAmdcDatoscS`,
+  urlBase: `https://api.amdc.hn/api`
 
 
   //?Development
@@ -20,5 +21,8 @@ export const environment = {
   //urlUser: `http://localhost:3000/api/users`,
   //urlAmdcData: `http://localhost:3000/api/getAmdcDatos`,
   //urlAmdcDatoscS: `http://localhost:3000/api/getAmdcDatoscS`
+  // urlBase: `http://localhost:3000/api`,
+  // urlAllAmdcData: `http://localhost:3000/api/getDataAmdc`,
+  
 
 };

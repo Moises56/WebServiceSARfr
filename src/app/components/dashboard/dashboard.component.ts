@@ -13,6 +13,7 @@ import { BitacoraComponent } from '../bitacora/bitacora.component';
 import { MisconsultasComponent } from '../misconsultas/misconsultas.component';
 import { HomeComponent } from '../home/home.component';
 import { UserComponent } from '../user/user.component';
+import { DatosamdcComponent } from '../datosamdc/datosamdc.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,7 +21,7 @@ import { UserComponent } from '../user/user.component';
   imports: [
     RouterLink, NgClass, NgbCollapseModule,
     VentabrutaComponent, ConsultaRTNComponent, BitacoraComponent, 
-    MisconsultasComponent, HomeComponent, UserComponent
+    MisconsultasComponent, HomeComponent, UserComponent, DatosamdcComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
@@ -126,6 +127,13 @@ export class DashboardComponent implements OnInit {
   }
   onMisConsultas() {
     this.regionVisible = 'misConsultas';
+    //eliminar el evento onDashboard
+    localStorage.removeItem('onDashboard');
+    this.ngOnInit();
+  }
+
+  onDatosAMDC(){
+    this.regionVisible = 'datosAMDC';
     //eliminar el evento onDashboard
     localStorage.removeItem('onDashboard');
     this.ngOnInit();

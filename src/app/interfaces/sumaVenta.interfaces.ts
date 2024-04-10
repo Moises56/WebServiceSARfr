@@ -33,3 +33,16 @@ export interface datosAMdc {
   usuario: String
   createdAt?: String
 }
+
+
+export interface datosAmdc {
+  id: number;
+  DNI_RTN: String
+  ICS: String,
+  CONTRIBUYENTE: String,
+  NOMBRE_COMERCIAL: String,
+  ACTIVIDAD_ECONOMICA: String,
+  ANIO: String,
+  FECHA_DE_DECLARACION: String,
+  CANTIDAD_DECLARADA: string,
+}

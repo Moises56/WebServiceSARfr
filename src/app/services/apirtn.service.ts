@@ -93,9 +93,31 @@ export class ApirtnService {
   getAmdcDatoscS(data2:any): Observable<any>{
     const anio = Number(data2.ANIO) + 1;
     // console.log(data2.RTN, anio)
-    return this.http.post<any>(`${environment.urlAmdcDatoscS}`,{
+    return this.http.post<any>(`${environment.urlAmdcDatoscS}/getAllAmdcDatos`,{
       RTN: data2.RTN,
       ANIO: anio
+    }).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+  // obtener todos los datos de la tabla amdc
+  getAllAmdcDatos(data:any): Observable<any>{
+    return this.http.post<any>(`${environment.urlBase}/getAllAmdcDatos`,{
+      page: data.page,
+      limit: data.limit
+    }).pipe(
+      catchError(this.errorHandler)
+    );
+  }
+
+  // buscar por RTN en el modelo de DATOSAMDCON
+  getDatosAmdc(data:any): Observable<any>{
+    console.log(data)
+    return this.http.post<any>(`${environment.urlBase}/getDataAmdc`,{
+      busqueda: data.RTN,
+      page: data.page,
+      limit: data.limit
     }).pipe(
       catchError(this.errorHandler)
     );

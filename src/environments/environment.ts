@@ -7,5 +7,6 @@ export const environment = {
   urlUser: `https://api.amdc.hn/api/users`,
   urlAmdcData: `https://api.amdc.hn/api/getAmdcDatos`,
   urlAmdcDatoscS: `https://api.amdc.hn/api/getAmdcDatoscS`,
+  urlBase: `https://api.amdc.hn/api`,
   production: true
 };

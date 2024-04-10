@@ -47,6 +47,13 @@
       </a>
       <span class="tooltip">Mis Consultas</span>
     </li>
+    <li>
+      <a (click)="onDatosAMDC()">
+        <i class="bx bx-data"></i>
+        <span class="links-name">Datos AMDC</span>
+      </a>
+      <span class="tooltip">Datos AMDC</span>
+    </li>
     @if (Rol === 'ROLE_ADMIN') {
     <li>
       <a (click)="onBitacora()">
@@ -120,6 +127,13 @@
     <div [ngClass]="{'visible':regionVisible == 'misConsultas', 'no-visible':regionVisible != 'misConsultas'}">
       <div>
       <app-misconsultas></app-misconsultas>
+      </div>
+    </div>
+
+    <!-- DatosAMDCComponent -->
+    <div [ngClass]="{'visible':regionVisible == 'datosAMDC', 'no-visible':regionVisible != 'datosAMDC'}">
+      <div>
+        <app-datosamdc></app-datosamdc>
       </div>
     </div>
 
