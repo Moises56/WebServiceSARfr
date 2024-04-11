@@ -161,7 +161,7 @@ export class VentabrutaComponent implements OnInit {
 
     this.apiRTN.getAmdcDatos(data2).subscribe(
       (responseData) => {
-        // console.log('getAmdcDatos: ' , responseData)
+        console.log('getAmdcDatos: ' , responseData)
         this.errorMessage2 = responseData.message;
       },
       (error) => {
@@ -188,6 +188,7 @@ export class VentabrutaComponent implements OnInit {
           } else if (responseData.data !== undefined) {
 
             this.ventasData = responseData;
+            console.log('ventasData: ', this.ventasData);
             this.regionVisible = 'data';
             this.isLoadding = false;
             localStorage.setItem('ventasData', JSON.stringify(this.ventasData));

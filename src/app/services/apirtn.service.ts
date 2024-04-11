@@ -93,7 +93,7 @@ export class ApirtnService {
   getAmdcDatoscS(data2:any): Observable<any>{
     const anio = Number(data2.ANIO) + 1;
     // console.log(data2.RTN, anio)
-    return this.http.post<any>(`${environment.urlAmdcDatoscS}/getAllAmdcDatos`,{
+    return this.http.post<any>(`${environment.urlAmdcDatoscS}`,{
       RTN: data2.RTN,
       ANIO: anio
     }).pipe(
